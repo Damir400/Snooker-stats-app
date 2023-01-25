@@ -21,6 +21,7 @@ class DialogNewGame : DialogFragment() {
                 .setPositiveButton("Да") {
                         dialog, id ->  dialog.dismiss()
                     mainActivity.resetGame()
+                    mainActivity.addGlobalScore()
                 }
                 .setNegativeButton("Нет"){
                         dialog, id ->  dialog.dismiss()

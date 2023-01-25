@@ -1,5 +1,6 @@
 package com.example.myfirstapp
 
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -17,6 +18,7 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var scorePlayer1: TextView
     lateinit var scorePlayer2: TextView
+    lateinit var globalScore: TextView
 
     lateinit var buttonPlayer1: Button
     lateinit var buttonPlayer2: Button
@@ -72,6 +74,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -103,6 +106,7 @@ class MainActivity : AppCompatActivity() {
         buttonPlayer23 = findViewById<Button>(R.id.button23)
         buttonPlayer24 = findViewById<Button>(R.id.button24)
         buttonPlayer25 = findViewById<ImageButton>(R.id.button25)
+        globalScore = findViewById(R.id.globalScore)
 
         buttonPlayer1.setOnClickListener {
             addScore(1, player1, scorePlayer1)
@@ -208,14 +212,17 @@ class MainActivity : AppCompatActivity() {
             val manager = supportFragmentManager
             dialogNewGame.setMainActivity(this)
             dialogNewGame.show(manager, "myDialog")
-
         }
 
     }
     fun addGlobalScore(){
         if (player1.score > player2.score){
-            //qweqweqwewqeqeqwewqe
+            globalScore1 += 1
         }
+        else {
+            globalScore2 += 1
+        }
+        globalScore.text = "($globalScore1:$globalScore2)"
     }
 
     fun cancelMove(){
