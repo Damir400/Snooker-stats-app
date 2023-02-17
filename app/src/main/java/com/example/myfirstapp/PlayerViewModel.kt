@@ -127,6 +127,10 @@ class PlayerViewModel {
         _globalScore.value = (_globalScore.value?: 0) + 1
     }
 
+    fun clearGlobalScore(){
+        _globalScore.value = 0
+    }
+
 
     fun setScore(newScore: Int) {
         _score.value = newScore

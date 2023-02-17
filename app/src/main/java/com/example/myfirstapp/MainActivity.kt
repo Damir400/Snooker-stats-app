@@ -67,7 +67,12 @@ class MainActivity : AppCompatActivity() {
         binding.newGameBtn.setOnClickListener {
             showNewGameWindow()
         }
-        
+
+        binding.newGameBtn.setOnLongClickListener{
+            showNewTournamentWindow()
+            true
+        }
+
         snooker.frameScoreToString()
     }
 
@@ -105,7 +110,24 @@ class MainActivity : AppCompatActivity() {
                 dialog.dismiss()
             })
             ?.create()?.show()
+    }
 
+    fun showNewTournamentWindow() {
+
+        val builder: AlertDialog.Builder = this.let {
+            AlertDialog.Builder(it)
+        }
+        builder.setMessage("Подтверждение действия")
+            ?.setTitle("Начать новую сессию?")
+            ?.setPositiveButton("ДА", { dialog, id ->
+                dialog.dismiss()
+                snooker.newTournament()
+
+            })
+            ?.setNegativeButton("НЕТ", { dialog, id ->
+                dialog.dismiss()
+            })
+            ?.create()?.show()
     }
 
 

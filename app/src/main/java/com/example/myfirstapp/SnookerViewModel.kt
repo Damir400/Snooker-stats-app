@@ -66,4 +66,16 @@ class SnookerViewModel(player1: PlayerViewModel, player2: PlayerViewModel) {
     fun frameScoreToString(){
         _frameScore.value = "${(player1.value!!.globalScore.value!!)}:${(player2.value!!.globalScore.value!!)}"
     }
+
+    fun newTournament(){
+        player1.value!!.setScore(0)
+        player2.value!!.setScore(0)
+        _progress.value?.clear()
+
+        player1.value!!.clearGlobalScore()
+        player2.value!!.clearGlobalScore()
+
+        frameScoreToString()
+
+    }
 }
