@@ -1,33 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#01752C"
-    tools:context=".MainActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TableLayout
+    <data>
+<!--        <variable name="player1" type="com.example.myfirstapp.PlayerViewModel" />-->
+<!--        <variable name="player2" type="com.example.myfirstapp.PlayerViewModel" />-->
+
+<!--        <variable name="progress" type="com.example.myfirstapp.ProgressViewModel" />-->
+
+
+        <variable name="snooker" type="com.example.myfirstapp.SnookerViewModel" />
+        <variable name="ballType" type="com.example.myfirstapp.BallType" />
+        <variable name="team" type="com.example.myfirstapp.Teams" />
+
+        <variable name="plus1" type="Integer" />
+        <variable name="plus2" type="Integer" />
+        <variable name="plus3" type="Integer" />
+        <variable name="plus4" type="Integer" />
+        <variable name="plus5" type="Integer" />
+        <variable name="plus6" type="Integer" />
+        <variable name="plus7" type="Integer" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp">
+        tools:context=".MainActivity"
+        android:background="#01752C"
+        >
 
-        <TableRow
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/globalScore"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintWidth_default="wrap"
+            app:layout_constraintHeight_default="wrap"
+            android:scaleType="centerCrop"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="250dp"
+            android:text="@{snooker.frameScore}"
+            android:textColor="@color/white"
+            android:shadowColor="@color/black"
+            android:shadowRadius="20"
+            android:textSize="40sp"
+            tools:ignore="MissingConstraints" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clPart1"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:gravity="center"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="0dp">
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/clPart2">
 
             <Button
-                android:id="@+id/button23"
+                android:id="@+id/cancelBtn"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_weight="50"
+                android:layout_height="0dp"
+                app:layout_constraintWidth_default="wrap"
+                app:layout_constraintHeight_default="wrap"
+                android:scaleType="centerCrop"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
                 android:text="Отмена хода"
                 android:textSize="18sp"
                 android:textColor="@color/black"
@@ -35,539 +75,782 @@
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 app:strokeColor="@color/black"
                 app:strokeWidth="2dp"
-                app:cornerRadius="6dp"/>
-
-            <Button
-                android:id="@+id/button24"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="5dp"
-                android:layout_weight="50"
-                android:text="Новая игра"
-                android:textSize="18sp"
-                android:textColor="@color/black"
-                android:backgroundTint="#B2E8C6"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                app:strokeColor="@color/black"
-                app:strokeWidth="2dp"
-                app:cornerRadius="6dp"/>
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="0dp">
+                app:cornerRadius="6dp"
+                tools:ignore="MissingConstraints" />
 
             <TextView
                 android:id="@+id/textUser1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_weight="50"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintWidth_default="wrap"
+                app:layout_constraintHeight_default="wrap"
+                android:scaleType="centerCrop"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@+id/cancelBtn"
                 android:text="ИГРОК 1"
                 android:textColor="@color/white"
                 android:shadowColor="@color/black"
                 android:shadowRadius="20"
-                android:textSize="35sp"/>
-
-
-
-            <TextView
-                android:id="@+id/textUser2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_weight="50"
-                android:text="ИГРОК 2"
-                android:textColor="@color/white"
-                android:shadowColor="@color/black"
-                android:shadowRadius="20"
-                android:textSize="35sp"/>
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:weightSum="100"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="0dp">
+                android:textSize="35sp"
+                tools:ignore="MissingConstraints" />
 
             <TextView
                 android:id="@+id/textScore1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_weight="50"
-                android:text="0"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintWidth_default="wrap"
+                app:layout_constraintHeight_default="wrap"
+                android:scaleType="centerCrop"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginTop="20dp"
+                app:layout_constraintTop_toBottomOf="@+id/textUser1"
+                android:text="@{Integer.toString(snooker.player1.score)}"
                 android:textColor="@color/white"
                 android:shadowColor="@color/black"
                 android:shadowRadius="20"
-                android:textSize="100sp"/>
+                android:textSize="100sp" />
+
+            <ImageButton
+                android:id="@+id/plus1Player1Btn"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                app:layout_constraintWidth_default="wrap"
+                app:layout_constraintHeight_default="wrap"
+                android:scaleType="centerCrop"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginStart="16dp"
+                app:layout_constraintTop_toBottomOf="@+id/textScore1"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/ball1"
+                android:background="@null"
+                android:clickable="@{snooker.player1.balls[ballType.SNOOKER_RED].isEnabled}"
+                android:alpha="@{snooker.player1.balls[ballType.SNOOKER_RED].alpha}"
+                android:onClick="@{() -> snooker.move(team.TEAM_LEFT, ballType.SNOOKER_RED)}"
+                tools:ignore="MissingConstraints" />
+
+            <ImageButton
+                android:id="@+id/plus2Player1Btn"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:background="@null"
+                app:layout_constraintWidth_default="wrap"
+                app:layout_constraintHeight_default="wrap"
+                android:scaleType="centerCrop"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginEnd="32dp"
+                android:layout_marginTop="58dp"
+                app:layout_constraintTop_toBottomOf="@+id/textScore1"
+                android:src="@drawable/ball2"
+                android:onClick="@{() -> snooker.move(team.TEAM_LEFT, ballType.SNOOKER_YELLOW)}"
+                android:clickable="@{snooker.player1.balls[ballType.SNOOKER_YELLOW].isEnabled}"
+                android:alpha="@{snooker.player1.balls[ballType.SNOOKER_YELLOW].alpha}"/>
+
+            <ImageButton
+                android:id="@+id/plus3Player1Btn"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                app:layout_constraintWidth_default="wrap"
+                app:layout_constraintHeight_default="wrap"
+                android:scaleType="centerCrop"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                app:layout_constraintTop_toBottomOf="@+id/plus1Player1Btn"
+                android:src="@drawable/ball3"
+                android:background="@null"
+                android:onClick="@{() -> snooker.move(team.TEAM_LEFT, ballType.SNOOKER_GREEN)}"
+                android:clickable="@{snooker.player1.balls[ballType.SNOOKER_GREEN].isEnabled}"
+                android:alpha="@{snooker.player1.balls[ballType.SNOOKER_GREEN].alpha}"/>
+
+            <ImageButton
+                android:id="@+id/plus4Player1Btn"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                app:layout_constraintWidth_default="wrap"
+                app:layout_constraintHeight_default="wrap"
+                android:scaleType="centerCrop"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginEnd="32dp"
+                android:layout_marginTop="24dp"
+
+                app:layout_constraintTop_toBottomOf="@+id/plus2Player1Btn"
+                android:src="@drawable/ball4"
+                android:background="@null"
+                android:onClick="@{() -> snooker.move(team.TEAM_LEFT, ballType.SNOOKER_BROWN)}"
+                android:clickable="@{snooker.player1.balls[ballType.SNOOKER_BROWN].isEnabled}"
+                android:alpha="@{snooker.player1.balls[ballType.SNOOKER_BROWN].alpha}"/>
+
+            <ImageButton
+                android:id="@+id/plus5Player1Btn"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                app:layout_constraintWidth_default="wrap"
+                app:layout_constraintHeight_default="wrap"
+                android:scaleType="centerCrop"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+
+                app:layout_constraintTop_toBottomOf="@+id/plus3Player1Btn"
+                android:src="@drawable/ball5"
+                android:background="@null"
+                android:onClick="@{() -> snooker.move(team.TEAM_LEFT, ballType.SNOOKER_BLUE)}"
+                android:clickable="@{snooker.player1.balls[ballType.SNOOKER_BLUE].isEnabled}"
+                android:alpha="@{snooker.player1.balls[ballType.SNOOKER_BLUE].alpha}"/>
+
+            <ImageButton
+                android:id="@+id/plus6Player1Btn"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                app:layout_constraintWidth_default="wrap"
+                app:layout_constraintHeight_default="wrap"
+                android:scaleType="centerCrop"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginEnd="32dp"
+                android:layout_marginTop="24dp"
+
+                app:layout_constraintTop_toBottomOf="@+id/plus4Player1Btn"
+                android:src="@drawable/ball6"
+                android:background="@null"
+                android:onClick="@{() -> snooker.move(team.TEAM_LEFT, ballType.SNOOKER_PURPLE)}"
+                android:clickable="@{snooker.player1.balls[ballType.SNOOKER_PURPLE].isEnabled}"
+                android:alpha="@{snooker.player1.balls[ballType.SNOOKER_PURPLE].alpha}"/>
+
+            <ImageButton
+                android:id="@+id/plus7Player1Btn"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                app:layout_constraintWidth_default="wrap"
+                app:layout_constraintHeight_default="wrap"
+                android:scaleType="centerCrop"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+
+                app:layout_constraintTop_toBottomOf="@+id/plus5Player1Btn"
+                android:src="@drawable/ball7"
+                android:background="@null"
+
+                android:onClick="@{() -> snooker.move(team.TEAM_LEFT, ballType.SNOOKER_BLACK)}"
+                android:clickable="@{snooker.player1.balls[ballType.SNOOKER_BLACK].isEnabled}"
+                android:alpha="@{snooker.player1.balls[ballType.SNOOKER_BLACK].alpha}"/>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clPart2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/clPart1"
+            app:layout_constraintRight_toRightOf="parent">
+
+            <Button
+                android:id="@+id/newGameBtn"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="#B2E8C6"
+                android:scaleType="centerCrop"
+                android:text="Новая игра"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:cornerRadius="6dp"
+                app:layout_constraintHeight_default="wrap"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintWidth_default="wrap"
+                app:strokeColor="@color/black"
+                app:strokeWidth="2dp"
+                tools:ignore="MissingConstraints" />
+
+            <TextView
+                android:id="@+id/textUser2"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="16dp"
+                android:scaleType="centerCrop"
+                android:shadowColor="@color/black"
+                android:shadowRadius="20"
+                android:text="ИГРОК 2"
+                android:textColor="@color/white"
+                android:textSize="35sp"
+                app:layout_constraintHeight_default="wrap"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/newGameBtn"
+                app:layout_constraintWidth_default="wrap"
+                tools:ignore="MissingConstraints" />
 
             <TextView
                 android:id="@+id/textScore2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_weight="50"
-                android:text="0"
-                android:textColor="@color/white"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="20dp"
+                android:scaleType="centerCrop"
                 android:shadowColor="@color/black"
                 android:shadowRadius="20"
-                android:textSize="100sp"/>
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:gravity="center"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="0dp">
-
-            <Button
-                android:id="@+id/button1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_weight="50"
-                android:text="+1"
-                android:textSize="22sp"
-                android:textColor="@color/black"
-                android:backgroundTint="#FF4046"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                app:strokeColor="@color/black"
-                app:strokeWidth="2dp"
-                app:cornerRadius="6dp"/>
-
-            <TextView
-                android:id="@+id/globalScore"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_weight="50"
-                android:text="(0:0)"
+                android:text="@{Integer.toString(snooker.player2.score)}"
                 android:textColor="@color/white"
-                android:shadowColor="@color/black"
-                android:shadowRadius="20"
-                android:textSize="35sp"/>
-
-            <Button
-                android:id="@+id/button8"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_weight="50"
-                android:text="+1"
-                android:textSize="22sp"
-                android:textColor="@color/black"
-                android:backgroundTint="#FF4046"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                app:strokeColor="@color/black"
-                app:strokeWidth="2dp"
-                app:cornerRadius="6dp"/>
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:gravity="center"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="0dp">
-
-            <Button
-                android:id="@+id/button2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_weight="50"
-                android:text="+2"
-                android:textSize="22sp"
-                android:textColor="@color/black"
-                android:backgroundTint="#F0F000"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                app:strokeColor="@color/black"
-                app:strokeWidth="2dp"
-                app:cornerRadius="6dp"
-                />
-
-            <Button
-                android:id="@+id/button3"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_weight="50"
-                android:text="+3"
-                android:textSize="22sp"
-                android:textColor="@color/black"
-                android:backgroundTint="#00E500"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                app:strokeColor="@color/black"
-                app:strokeWidth="2dp"
-                app:cornerRadius="6dp"/>
-
-            <Button
-                android:id="@+id/button9"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_weight="50"
-                android:text="+2"
-                android:textSize="22sp"
-                android:textColor="@color/black"
-                android:backgroundTint="#F0F000"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                app:strokeColor="@color/black"
-                app:strokeWidth="2dp"
-                app:cornerRadius="6dp"/>
-
-            <Button
-                android:id="@+id/button10"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_weight="50"
-                android:text="+3"
-                android:textSize="22sp"
-                android:textColor="@color/black"
-                android:backgroundTint="#00E500"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                app:strokeColor="@color/black"
-                app:strokeWidth="2dp"
-                app:cornerRadius="6dp"/>
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:gravity="center"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="0dp">
-
-            <Button
-                android:id="@+id/button4"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_weight="50"
-                android:text="+4"
-                android:textSize="22sp"
-                android:textColor="@color/black"
-                android:backgroundTint="#F29C07"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                app:strokeColor="@color/black"
-                app:strokeWidth="2dp"
-                app:cornerRadius="6dp"/>
-
-            <Button
-                android:id="@+id/button5"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_weight="50"
-                android:text="+5"
-                android:textSize="22sp"
-                android:textColor="@color/black"
-                android:backgroundTint="#6A78FA"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                app:strokeColor="@color/black"
-                app:strokeWidth="2dp"
-                app:cornerRadius="6dp"/>
-
-
-
-            <Button
-                android:id="@+id/button11"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_weight="50"
-                android:text="+4"
-                android:textSize="22sp"
-                android:textColor="@color/black"
-                android:backgroundTint="#F29C07"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                app:strokeColor="@color/black"
-                app:strokeWidth="2dp"
-                app:cornerRadius="6dp"/>
-
-            <Button
-                android:id="@+id/button12"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_weight="50"
-                android:text="+5"
-                android:textSize="22sp"
-                android:textColor="@color/black"
-                android:backgroundTint="#6A78FA"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                app:strokeColor="@color/black"
-                app:strokeWidth="2dp"
-                app:cornerRadius="6dp"/>
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:gravity="center"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="0dp">
-
-            <Button
-                android:id="@+id/button6"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_weight="50"
-                android:text="+6"
-                android:textSize="22sp"
-                android:textColor="@color/black"
-                android:backgroundTint="#E92FD7"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                app:strokeColor="@color/black"
-                app:strokeWidth="2dp"
-                app:cornerRadius="6dp"/>
-
-            <Button
-                android:id="@+id/button7"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_weight="50"
-                android:text="+7"
-                android:textSize="22sp"
-                android:textColor="@color/white"
-                android:backgroundTint="@color/black"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                app:strokeColor="@color/white"
-                app:strokeWidth="2dp"
-                app:cornerRadius="6dp"/>
-
-
-
-            <Button
-                android:id="@+id/button13"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_weight="50"
-                android:text="+6"
-                android:textSize="22sp"
-                android:textColor="@color/black"
-                android:backgroundTint="#E92FD7"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                app:strokeColor="@color/black"
-                app:strokeWidth="2dp"
-                app:cornerRadius="6dp"/>
-
-            <Button
-                android:id="@+id/button14"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_weight="50"
-                android:text="+7"
-                android:textSize="22sp"
-                android:textColor="@color/white"
-                android:backgroundTint="@color/black"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                app:strokeColor="@color/white"
-                app:strokeWidth="2dp"
-                app:cornerRadius="6dp"/>
-
-        </TableRow>
-
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:layout_marginTop="20dp"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="0dp">
-
-            <Button
-                android:id="@+id/button15"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_weight="50"
-                android:text="–4"
-                android:textSize="22sp"
-                android:textColor="@color/black"
-                android:backgroundTint="#F0D5A6"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                app:strokeColor="#994C00"
-                app:strokeWidth="3dp"
-                app:cornerRadius="6dp"/>
-
-            <Button
-                android:id="@+id/button16"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_weight="50"
-                android:text="–5"
-                android:textSize="22sp"
-                android:textColor="@color/black"
-                android:backgroundTint="#D0E5FF"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                app:strokeColor="#263AF3"
-                app:strokeWidth="3dp"
-                app:cornerRadius="6dp"/>
-
-
-            <Button
-                android:id="@+id/button17"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_weight="50"
-                android:text="–4"
-                android:textSize="22sp"
-                android:textColor="@color/black"
-                android:backgroundTint="#F0D5A6"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                app:strokeColor="#994C00"
-                app:strokeWidth="3dp"
-                app:cornerRadius="6dp"/>
-
-            <Button
-                android:id="@+id/button18"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_weight="50"
-                android:text="–5"
-                android:textSize="22sp"
-                android:textColor="@color/black"
-                android:backgroundTint="#D0E5FF"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                app:strokeColor="#263AF3"
-                app:strokeWidth="3dp"
-                app:cornerRadius="6dp"/>
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:gravity="center"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="0dp">
-
-            <Button
-                android:id="@+id/button19"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_weight="50"
-                android:text="–6"
-                android:textSize="22sp"
-                android:textColor="@color/black"
-                android:backgroundTint="#FFD0FD"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                app:strokeColor="#D400BF"
-                app:strokeWidth="3dp"
-                app:cornerRadius="6dp"/>
-
-            <Button
-                android:id="@+id/button20"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_weight="50"
-                android:text="–7"
-                android:textSize="22sp"
-                android:textColor="@color/black"
-                android:backgroundTint="#C0C0C0"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                app:strokeColor="@color/black"
-                app:strokeWidth="3dp"
-                app:cornerRadius="6dp"/>
-
-
-            <Button
-                android:id="@+id/button21"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_weight="50"
-                android:text="–6"
-                android:textSize="22sp"
-                android:textColor="@color/black"
-                android:backgroundTint="#FFD0FD"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                app:strokeColor="#D400BF"
-                app:strokeWidth="3dp"
-                app:cornerRadius="6dp"/>
-
-            <Button
-                android:id="@+id/button22"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_weight="50"
-                android:text="–7"
-                android:textSize="22sp"
-                android:textColor="@color/black"
-                android:backgroundTint="#C0C0C0"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                app:strokeColor="@color/black"
-                app:strokeWidth="3dp"
-                app:cornerRadius="6dp" />
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="0dp">
-        </TableRow>
+                android:textSize="100sp"
+                app:layout_constraintHeight_default="wrap"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textUser2"
+                app:layout_constraintWidth_default="wrap" />
 
             <ImageButton
-                android:id="@+id/button25"
-                android:layout_width="50dp"
-                android:layout_height="60dp"
-                android:layout_marginTop="35dp"
-                android:layout_marginStart="340dp"
-                android:adjustViewBounds="true"
+                android:id="@+id/plus1Player2Btn"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                app:layout_constraintWidth_default="wrap"
+                app:layout_constraintHeight_default="wrap"
+                android:scaleType="centerCrop"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintTop_toBottomOf="@+id/textScore2"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/ball1"
                 android:background="@null"
-                android:padding="1dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/calculator" />
+                android:onClick="@{() -> snooker.move(team.TEAM_RIGHT, ballType.SNOOKER_RED)}"
+                tools:ignore="MissingConstraints" />
+
+            <ImageButton
+                android:id="@+id/plus2Player2Btn"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:background="@null"
+                app:layout_constraintWidth_default="wrap"
+                app:layout_constraintHeight_default="wrap"
+                android:scaleType="centerCrop"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="58dp"
+                app:layout_constraintTop_toBottomOf="@+id/textScore2"
+                android:src="@drawable/ball2"
+                android:onClick="@{() -> snooker.move(team.TEAM_RIGHT, ballType.SNOOKER_YELLOW)}"
+                />
+
+            <ImageButton
+                android:id="@+id/plus3Player2Btn"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                app:layout_constraintWidth_default="wrap"
+                app:layout_constraintHeight_default="wrap"
+                android:scaleType="centerCrop"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="24dp"
+                app:layout_constraintTop_toBottomOf="@+id/plus1Player2Btn"
+                android:src="@drawable/ball3"
+                android:background="@null"
+                android:onClick="@{() -> snooker.move(team.TEAM_RIGHT, ballType.SNOOKER_GREEN)}"
+                />
+
+            <ImageButton
+                android:id="@+id/plus4Player2Btn"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                app:layout_constraintWidth_default="wrap"
+                app:layout_constraintHeight_default="wrap"
+                android:scaleType="centerCrop"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="24dp"
+
+                app:layout_constraintTop_toBottomOf="@+id/plus2Player2Btn"
+                android:src="@drawable/ball4"
+                android:background="@null"
+                android:onClick="@{() -> snooker.move(team.TEAM_RIGHT, ballType.SNOOKER_BROWN)}"
+                />
+
+            <ImageButton
+                android:id="@+id/plus5Player2Btn"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                app:layout_constraintWidth_default="wrap"
+                app:layout_constraintHeight_default="wrap"
+                android:scaleType="centerCrop"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="24dp"
+
+                app:layout_constraintTop_toBottomOf="@+id/plus3Player2Btn"
+                android:src="@drawable/ball5"
+                android:background="@null"
+                android:onClick="@{() -> snooker.move(team.TEAM_RIGHT, ballType.SNOOKER_BLUE)}"
+                />
+
+            <ImageButton
+                android:id="@+id/plus6Player2Btn"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                app:layout_constraintWidth_default="wrap"
+                app:layout_constraintHeight_default="wrap"
+                android:scaleType="centerCrop"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="24dp"
+
+                app:layout_constraintTop_toBottomOf="@+id/plus4Player2Btn"
+                android:src="@drawable/ball6"
+                android:background="@null"
+                android:onClick="@{() -> snooker.move(team.TEAM_RIGHT, ballType.SNOOKER_PURPLE)}"
+                />
+
+            <ImageButton
+                android:id="@+id/plus7Player2Btn"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                app:layout_constraintWidth_default="wrap"
+                app:layout_constraintHeight_default="wrap"
+                android:scaleType="centerCrop"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="24dp"
+
+                app:layout_constraintTop_toBottomOf="@+id/plus5Player2Btn"
+                android:src="@drawable/ball7"
+                android:background="@null"
+                android:onClick="@{() -> snooker.move(team.TEAM_RIGHT, ballType.SNOOKER_BLACK)}"
+                />
 
 
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
+    </androidx.constraintlayout.widget.ConstraintLayout>
+<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:background="#01752C"-->
+<!--        tools:context=".MainActivity">-->
+<!--        -->
+<!--        <TableLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:orientation="horizontal"-->
+<!--            tools:layout_editor_absoluteX="0dp"-->
+<!--            tools:layout_editor_absoluteY="0dp">-->
 
-    </TableLayout>
+<!--            <TableRow-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:gravity="center"-->
+<!--                tools:layout_editor_absoluteX="0dp"-->
+<!--                tools:layout_editor_absoluteY="0dp">-->
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="206dp" />
+<!--                <Button-->
+<!--                    android:id="@+id/cancelBtn"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginStart="5dp"-->
+<!--                    android:layout_weight="50"-->
+<!--                    android:text="Отмена хода"-->
+<!--                    android:textSize="18sp"-->
+<!--                    android:textColor="@color/black"-->
+<!--                    android:backgroundTint="#B2E8C6"-->
+<!--                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"-->
+<!--                    app:strokeColor="@color/black"-->
+<!--                    app:strokeWidth="2dp"-->
+<!--                    app:cornerRadius="6dp"-->
+<!--                    />-->
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+<!--                <Button-->
+<!--                    android:id="@+id/newGameBtn"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginStart="10dp"-->
+<!--                    android:layout_marginEnd="5dp"-->
+<!--                    android:layout_weight="50"-->
+<!--                    android:text="Новая игра"-->
+<!--                    android:textSize="18sp"-->
+<!--                    android:textColor="@color/black"-->
+<!--                    android:backgroundTint="#B2E8C6"-->
+<!--                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"-->
+<!--                    app:strokeColor="@color/black"-->
+<!--                    app:strokeWidth="2dp"-->
+<!--                    app:cornerRadius="6dp" />-->
+<!--            </TableRow>-->
+
+<!--            <TableRow-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:orientation="horizontal"-->
+<!--                tools:layout_editor_absoluteX="0dp"-->
+<!--                tools:layout_editor_absoluteY="0dp">-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/textUser1"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:gravity="center"-->
+<!--                android:layout_weight="50"-->
+<!--                android:text="ИГРОК 1"-->
+<!--                android:textColor="@color/white"-->
+<!--                android:shadowColor="@color/black"-->
+<!--                android:shadowRadius="20"-->
+<!--                android:textSize="35sp" />-->
+
+
+<!--            <TextView-->
+<!--                android:id="@+id/textUser2"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:gravity="center"-->
+<!--                android:layout_weight="50"-->
+<!--                android:text="ИГРОК 2"-->
+<!--                android:textColor="@color/white"-->
+<!--                android:shadowColor="@color/black"-->
+<!--                android:shadowRadius="20"-->
+<!--                android:textSize="35sp" />-->
+<!--            </TableRow>-->
+
+<!--            <TableRow-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:weightSum="100"-->
+<!--                tools:layout_editor_absoluteX="0dp"-->
+<!--                tools:layout_editor_absoluteY="0dp">-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/textScore1"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:gravity="center"-->
+<!--                    android:layout_weight="50"-->
+<!--                    android:text="@{Integer.toString(player1.score)}"-->
+<!--                    android:textColor="@color/white"-->
+<!--                    android:shadowColor="@color/black"-->
+<!--                    android:shadowRadius="20"-->
+<!--                    android:textSize="100sp" />-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/textScore2"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:gravity="center"-->
+<!--                    android:layout_weight="50"-->
+<!--                    android:text="@{Integer.toString(player2.score)}"-->
+<!--                    android:textColor="@color/white"-->
+<!--                    android:shadowColor="@color/black"-->
+<!--                    android:shadowRadius="20"-->
+<!--                    android:textSize="100sp" />-->
+<!--            </TableRow>-->
+
+<!--            <TableRow-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:gravity="center"-->
+<!--                tools:layout_editor_absoluteX="0dp"-->
+<!--                tools:layout_editor_absoluteY="0dp">-->
+
+<!--                <Button-->
+<!--                    android:id="@+id/button1"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginStart="5dp"-->
+<!--                    android:layout_weight="50"-->
+<!--                    android:text="+1"-->
+<!--                    android:textSize="22sp"-->
+<!--                    android:textColor="@color/black"-->
+<!--                    android:backgroundTint="#FF4046"-->
+<!--                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"-->
+<!--                    app:strokeColor="@color/black"-->
+<!--                    app:strokeWidth="2dp"-->
+<!--                    app:cornerRadius="6dp"-->
+<!--                    android:onClick="@{() -> progress.move(player1, plus1)}"-->
+<!--                    />-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/globalScore"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:gravity="center"-->
+<!--                    android:layout_weight="50"-->
+<!--                    android:text="@{progress.frameScore}"-->
+<!--                    android:textColor="@color/white"-->
+<!--                    android:shadowColor="@color/black"-->
+<!--                    android:shadowRadius="20"-->
+<!--                    android:textSize="40sp"-->
+<!--                    />-->
+
+<!--                <Button-->
+<!--                    android:id="@+id/button8"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginStart="5dp"-->
+<!--                    android:layout_marginEnd="5dp"-->
+<!--                    android:layout_weight="50"-->
+<!--                    android:text="+1"-->
+<!--                    android:textSize="22sp"-->
+<!--                    android:textColor="@color/black"-->
+<!--                    android:backgroundTint="#FF4046"-->
+<!--                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"-->
+<!--                    app:strokeColor="@color/black"-->
+<!--                    app:strokeWidth="2dp"-->
+<!--                    app:cornerRadius="6dp"-->
+<!--                    android:onClick="@{() -> progress.move(player2, plus1)}"-->
+<!--                    />-->
+<!--            </TableRow>-->
+
+<!--            <TableRow-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:gravity="center"-->
+<!--                tools:layout_editor_absoluteX="0dp"-->
+<!--                tools:layout_editor_absoluteY="0dp">-->
+
+<!--                <Button-->
+<!--                    android:id="@+id/button2"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginStart="5dp"-->
+<!--                    android:layout_weight="50"-->
+<!--                    android:text="+2"-->
+<!--                    android:textSize="22sp"-->
+<!--                    android:textColor="@color/black"-->
+<!--                    android:backgroundTint="#F0F000"-->
+<!--                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"-->
+<!--                    app:strokeColor="@color/black"-->
+<!--                    app:strokeWidth="2dp"-->
+<!--                    app:cornerRadius="6dp"-->
+<!--                    android:onClick="@{() -> progress.move(player1, plus2)}"-->
+<!--                    />-->
+
+<!--                <Button-->
+<!--                    android:id="@+id/button3"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginStart="5dp"-->
+<!--                    android:layout_weight="50"-->
+<!--                    android:text="+3"-->
+<!--                    android:textSize="22sp"-->
+<!--                    android:textColor="@color/black"-->
+<!--                    android:backgroundTint="#00E500"-->
+<!--                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"-->
+<!--                    app:strokeColor="@color/black"-->
+<!--                    app:strokeWidth="2dp"-->
+<!--                    app:cornerRadius="6dp"-->
+<!--                    android:onClick="@{() -> progress.move(player1, plus3)}"-->
+<!--                    />-->
+
+<!--                <Button-->
+<!--                    android:id="@+id/button9"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginStart="10dp"-->
+<!--                    android:layout_weight="50"-->
+<!--                    android:text="+2"-->
+<!--                    android:textSize="22sp"-->
+<!--                    android:textColor="@color/black"-->
+<!--                    android:backgroundTint="#F0F000"-->
+<!--                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"-->
+<!--                    app:strokeColor="@color/black"-->
+<!--                    app:strokeWidth="2dp"-->
+<!--                    app:cornerRadius="6dp"-->
+<!--                    android:onClick="@{() -> progress.move(player2, plus2)}"-->
+<!--                    />-->
+
+<!--                <Button-->
+<!--                    android:id="@+id/button10"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginStart="5dp"-->
+<!--                    android:layout_marginEnd="5dp"-->
+<!--                    android:layout_weight="50"-->
+<!--                    android:text="+3"-->
+<!--                    android:textSize="22sp"-->
+<!--                    android:textColor="@color/black"-->
+<!--                    android:backgroundTint="#00E500"-->
+<!--                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"-->
+<!--                    app:strokeColor="@color/black"-->
+<!--                    app:strokeWidth="2dp"-->
+<!--                    app:cornerRadius="6dp"-->
+<!--                    android:onClick="@{() -> progress.move(player2, plus3)}"-->
+<!--                    />-->
+
+<!--            </TableRow>-->
+
+<!--            <TableRow-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:gravity="center"-->
+<!--                tools:layout_editor_absoluteX="0dp"-->
+<!--                tools:layout_editor_absoluteY="0dp">-->
+
+<!--                <Button-->
+<!--                    android:id="@+id/button4"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginStart="5dp"-->
+<!--                    android:layout_weight="50"-->
+<!--                    android:text="+4"-->
+<!--                    android:textSize="22sp"-->
+<!--                    android:textColor="@color/black"-->
+<!--                    android:backgroundTint="#F29C07"-->
+<!--                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"-->
+<!--                    app:strokeColor="@color/black"-->
+<!--                    app:strokeWidth="2dp"-->
+<!--                    app:cornerRadius="6dp"-->
+<!--                    android:onClick="@{() -> progress.move(player1, plus4)}"-->
+<!--                    />-->
+
+<!--                <Button-->
+<!--                    android:id="@+id/button5"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginStart="5dp"-->
+<!--                    android:layout_weight="50"-->
+<!--                    android:text="+5"-->
+<!--                    android:textSize="22sp"-->
+<!--                    android:textColor="@color/black"-->
+<!--                    android:backgroundTint="#6A78FA"-->
+<!--                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"-->
+<!--                    app:strokeColor="@color/black"-->
+<!--                    app:strokeWidth="2dp"-->
+<!--                    app:cornerRadius="6dp"-->
+<!--                    android:onClick="@{() -> progress.move(player1, plus5)}"-->
+<!--                    />-->
+
+
+<!--                <Button-->
+<!--                    android:id="@+id/button11"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginStart="10dp"-->
+<!--                    android:layout_weight="50"-->
+<!--                    android:text="+4"-->
+<!--                    android:textSize="22sp"-->
+<!--                    android:textColor="@color/black"-->
+<!--                    android:backgroundTint="#F29C07"-->
+<!--                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"-->
+<!--                    app:strokeColor="@color/black"-->
+<!--                    app:strokeWidth="2dp"-->
+<!--                    app:cornerRadius="6dp"-->
+<!--                    android:onClick="@{() -> progress.move(player2, plus4)}"-->
+<!--                    />-->
+
+<!--                <Button-->
+<!--                    android:id="@+id/button12"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginStart="5dp"-->
+<!--                    android:layout_marginEnd="5dp"-->
+<!--                    android:layout_weight="50"-->
+<!--                    android:text="+5"-->
+<!--                    android:textSize="22sp"-->
+<!--                    android:textColor="@color/black"-->
+<!--                    android:backgroundTint="#6A78FA"-->
+<!--                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"-->
+<!--                    app:strokeColor="@color/black"-->
+<!--                    app:strokeWidth="2dp"-->
+<!--                    app:cornerRadius="6dp"-->
+<!--                    android:onClick="@{() -> progress.move(player2, plus5)}"-->
+<!--                    />-->
+
+<!--            </TableRow>-->
+
+<!--            <TableRow-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:gravity="center"-->
+<!--                tools:layout_editor_absoluteX="0dp"-->
+<!--                tools:layout_editor_absoluteY="0dp">-->
+
+<!--                <Button-->
+<!--                    android:id="@+id/button6"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginStart="5dp"-->
+<!--                    android:layout_weight="50"-->
+<!--                    android:text="+6"-->
+<!--                    android:textSize="22sp"-->
+<!--                    android:textColor="@color/black"-->
+<!--                    android:backgroundTint="#E92FD7"-->
+<!--                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"-->
+<!--                    app:strokeColor="@color/black"-->
+<!--                    app:strokeWidth="2dp"-->
+<!--                    app:cornerRadius="6dp"-->
+<!--                    android:onClick="@{() -> progress.move(player1, plus6)}"-->
+<!--                    />-->
+
+<!--                <Button-->
+<!--                    android:id="@+id/button7"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginStart="5dp"-->
+<!--                    android:layout_weight="50"-->
+<!--                    android:text="+7"-->
+<!--                    android:textSize="22sp"-->
+<!--                    android:textColor="@color/white"-->
+<!--                    android:backgroundTint="@color/black"-->
+<!--                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"-->
+<!--                    app:strokeColor="@color/white"-->
+<!--                    app:strokeWidth="2dp"-->
+<!--                    app:cornerRadius="6dp"-->
+<!--                    android:onClick="@{() -> progress.move(player1, plus7)}"-->
+<!--                    />-->
+
+
+<!--                <Button-->
+<!--                    android:id="@+id/button13"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginStart="10dp"-->
+<!--                    android:layout_weight="50"-->
+<!--                    android:text="+6"-->
+<!--                    android:textSize="22sp"-->
+<!--                    android:textColor="@color/black"-->
+<!--                    android:backgroundTint="#E92FD7"-->
+<!--                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"-->
+<!--                    app:strokeColor="@color/black"-->
+<!--                    app:strokeWidth="2dp"-->
+<!--                    app:cornerRadius="6dp"-->
+<!--                    android:onClick="@{() -> progress.move(player2, plus6)}"-->
+<!--                    />-->
+
+<!--                <Button-->
+<!--                    android:id="@+id/button14"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginStart="5dp"-->
+<!--                    android:layout_marginEnd="5dp"-->
+<!--                    android:layout_weight="50"-->
+<!--                    android:text="+7"-->
+<!--                    android:textSize="22sp"-->
+<!--                    android:textColor="@color/white"-->
+<!--                    android:backgroundTint="@color/black"-->
+<!--                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"-->
+<!--                    app:strokeColor="@color/white"-->
+<!--                    app:strokeWidth="2dp"-->
+<!--                    app:cornerRadius="6dp"-->
+<!--                    android:onClick="@{() -> progress.move(player2, plus7)}"-->
+<!--                    />-->
+
+<!--            </TableRow>-->
+
+
+<!--        </TableLayout>-->
+
+<!--        <androidx.constraintlayout.widget.Guideline-->
+<!--            android:id="@+id/guideline3"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="vertical"-->
+<!--            app:layout_constraintGuide_begin="206dp" />-->
+
+<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
+</layout>

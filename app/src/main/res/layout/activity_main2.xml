@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable name="player1" type="com.example.myfirstapp.PlayerViewModel" />
+        <variable name="player2" type="com.example.myfirstapp.PlayerViewModel" />
+
+        <variable name="progress" type="com.example.myfirstapp.ProgressViewModel" />
+
+        <variable name="plus1" type="Integer" />
+        <variable name="plus2" type="Integer" />
+        <variable name="plus3" type="Integer" />
+        <variable name="plus4" type="Integer" />
+        <variable name="plus5" type="Integer" />
+        <variable name="plus6" type="Integer" />
+        <variable name="plus7" type="Integer" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity"
+        android:background="#01752C"
+        >
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clPart1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/clPart2">
+
+            <Button
+                android:id="@+id/cancelBtn"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintWidth_default="wrap"
+                app:layout_constraintHeight_default="wrap"
+                android:scaleType="centerCrop"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:text="Отмена хода"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:backgroundTint="#B2E8C6"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                app:strokeColor="@color/black"
+                app:strokeWidth="2dp"
+                app:cornerRadius="6dp"
+                tools:ignore="MissingConstraints" />
+
+            <TextView
+                android:id="@+id/textUser1"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintWidth_default="wrap"
+                app:layout_constraintHeight_default="wrap"
+                android:scaleType="centerCrop"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@+id/cancelBtn"
+                android:text="ИГРОК 1"
+                android:textColor="@color/white"
+                android:shadowColor="@color/black"
+                android:shadowRadius="20"
+                android:textSize="35sp"
+                tools:ignore="MissingConstraints" />
+
+            <TextView
+                android:id="@+id/textScore1"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintWidth_default="wrap"
+                app:layout_constraintHeight_default="wrap"
+                android:scaleType="centerCrop"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginTop="32dp"
+                app:layout_constraintTop_toBottomOf="@+id/textUser1"
+                android:text="@{Integer.toString(player1.score)}"
+                android:textColor="@color/white"
+                android:shadowColor="@color/black"
+                android:shadowRadius="20"
+                android:textSize="100sp" />
+
+            <ImageButton
+                android:id="@+id/plus1Player1Btn"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                app:layout_constraintWidth_default="wrap"
+                app:layout_constraintHeight_default="wrap"
+                android:scaleType="centerCrop"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginStart="16dp"
+                app:layout_constraintTop_toBottomOf="@+id/textScore1"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/ball1"
+                android:background="@null"
+                android:onClick="@{() -> progress.move(player1, plus1)}"
+                tools:ignore="MissingConstraints" />
+
+            <ImageButton
+                android:id="@+id/plus2Player1Btn"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:background="@null"
+                app:layout_constraintWidth_default="wrap"
+                app:layout_constraintHeight_default="wrap"
+                android:scaleType="centerCrop"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginEnd="32dp"
+                android:layout_marginTop="58dp"
+                app:layout_constraintTop_toBottomOf="@+id/textScore1"
+                android:src="@drawable/ball2"
+                android:onClick="@{() -> progress.move(player1, plus2)}" />
+
+            <ImageButton
+                android:id="@+id/plus3Player1Btn"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                app:layout_constraintWidth_default="wrap"
+                app:layout_constraintHeight_default="wrap"
+                android:scaleType="centerCrop"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                app:layout_constraintTop_toBottomOf="@+id/plus1Player1Btn"
+                android:src="@drawable/ball3"
+                android:background="@null"
+                android:onClick="@{() -> progress.move(player1, plus3)}" />
+
+            <ImageButton
+                android:id="@+id/plus4Player1Btn"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                app:layout_constraintWidth_default="wrap"
+                app:layout_constraintHeight_default="wrap"
+                android:scaleType="centerCrop"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginEnd="32dp"
+                android:layout_marginTop="24dp"
+
+                app:layout_constraintTop_toBottomOf="@+id/plus2Player1Btn"
+                android:src="@drawable/ball4"
+                android:background="@null"
+                android:onClick="@{() -> progress.move(player1, plus4)}" />
+
+            <ImageButton
+                android:id="@+id/plus5Player1Btn"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                app:layout_constraintWidth_default="wrap"
+                app:layout_constraintHeight_default="wrap"
+                android:scaleType="centerCrop"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+
+                app:layout_constraintTop_toBottomOf="@+id/plus3Player1Btn"
+                android:src="@drawable/ball5"
+                android:background="@null"
+                android:onClick="@{() -> progress.move(player1, plus5)}" />
+
+            <ImageButton
+                android:id="@+id/plus6Player1Btn"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                app:layout_constraintWidth_default="wrap"
+                app:layout_constraintHeight_default="wrap"
+                android:scaleType="centerCrop"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginEnd="32dp"
+                android:layout_marginTop="24dp"
+
+                app:layout_constraintTop_toBottomOf="@+id/plus4Player1Btn"
+                android:src="@drawable/ball6"
+                android:background="@null"
+                android:onClick="@{() -> progress.move(player1, plus6)}" />
+
+            <ImageButton
+                android:id="@+id/plus7Player1Btn"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                app:layout_constraintWidth_default="wrap"
+                app:layout_constraintHeight_default="wrap"
+                android:scaleType="centerCrop"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+
+                app:layout_constraintTop_toBottomOf="@+id/plus5Player1Btn"
+                android:src="@drawable/ball7"
+                android:background="@null"
+                android:onClick="@{() -> progress.move(player1, plus7)}" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clPart2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/clPart1"
+            app:layout_constraintRight_toRightOf="parent">
+
+            <Button
+                android:id="@+id/newGameBtn"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="#B2E8C6"
+                android:scaleType="centerCrop"
+                android:text="Новая игра"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:cornerRadius="6dp"
+                app:layout_constraintHeight_default="wrap"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintWidth_default="wrap"
+                app:strokeColor="@color/black"
+                app:strokeWidth="2dp"
+                tools:ignore="MissingConstraints" />
+
+            <TextView
+                android:id="@+id/textUser2"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="16dp"
+                android:scaleType="centerCrop"
+                android:shadowColor="@color/black"
+                android:shadowRadius="20"
+                android:text="ИГРОК 2"
+                android:textColor="@color/white"
+                android:textSize="35sp"
+                app:layout_constraintHeight_default="wrap"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/newGameBtn"
+                app:layout_constraintWidth_default="wrap"
+                tools:ignore="MissingConstraints" />
+
+            <TextView
+                android:id="@+id/textScore2"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="32dp"
+                android:scaleType="centerCrop"
+                android:shadowColor="@color/black"
+                android:shadowRadius="20"
+                android:text="@{Integer.toString(player1.score)}"
+                android:textColor="@color/white"
+                android:textSize="100sp"
+                app:layout_constraintHeight_default="wrap"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textUser2"
+                app:layout_constraintWidth_default="wrap" />
+
+            <ImageButton
+                android:id="@+id/plus1Player2Btn"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                app:layout_constraintWidth_default="wrap"
+                app:layout_constraintHeight_default="wrap"
+                android:scaleType="centerCrop"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintTop_toBottomOf="@+id/textScore2"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/ball1"
+                android:background="@null"
+                android:onClick="@{() -> progress.move(player1, plus1)}"
+                tools:ignore="MissingConstraints" />
+
+            <ImageButton
+                android:id="@+id/plus2Player2Btn"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:background="@null"
+                app:layout_constraintWidth_default="wrap"
+                app:layout_constraintHeight_default="wrap"
+                android:scaleType="centerCrop"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="58dp"
+                app:layout_constraintTop_toBottomOf="@+id/textScore2"
+                android:src="@drawable/ball2"
+                android:onClick="@{() -> progress.move(player1, plus2)}" />
+
+            <ImageButton
+                android:id="@+id/plus3Player2Btn"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                app:layout_constraintWidth_default="wrap"
+                app:layout_constraintHeight_default="wrap"
+                android:scaleType="centerCrop"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="24dp"
+                app:layout_constraintTop_toBottomOf="@+id/plus1Player2Btn"
+                android:src="@drawable/ball3"
+                android:background="@null"
+                android:onClick="@{() -> progress.move(player1, plus3)}" />
+
+            <ImageButton
+                android:id="@+id/plus4Player2Btn"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                app:layout_constraintWidth_default="wrap"
+                app:layout_constraintHeight_default="wrap"
+                android:scaleType="centerCrop"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="24dp"
+
+                app:layout_constraintTop_toBottomOf="@+id/plus2Player2Btn"
+                android:src="@drawable/ball4"
+                android:background="@null"
+                android:onClick="@{() -> progress.move(player1, plus4)}" />
+
+            <ImageButton
+                android:id="@+id/plus5Player2Btn"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                app:layout_constraintWidth_default="wrap"
+                app:layout_constraintHeight_default="wrap"
+                android:scaleType="centerCrop"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="24dp"
+
+                app:layout_constraintTop_toBottomOf="@+id/plus3Player2Btn"
+                android:src="@drawable/ball5"
+                android:background="@null"
+                android:onClick="@{() -> progress.move(player1, plus5)}" />
+
+            <ImageButton
+                android:id="@+id/plus6Player2Btn"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                app:layout_constraintWidth_default="wrap"
+                app:layout_constraintHeight_default="wrap"
+                android:scaleType="centerCrop"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="24dp"
+
+                app:layout_constraintTop_toBottomOf="@+id/plus4Player2Btn"
+                android:src="@drawable/ball6"
+                android:background="@null"
+                android:onClick="@{() -> progress.move(player1, plus6)}" />
+
+            <ImageButton
+                android:id="@+id/plus7Player2Btn"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                app:layout_constraintWidth_default="wrap"
+                app:layout_constraintHeight_default="wrap"
+                android:scaleType="centerCrop"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="24dp"
+
+                app:layout_constraintTop_toBottomOf="@+id/plus5Player2Btn"
+                android:src="@drawable/ball7"
+                android:background="@null"
+                android:onClick="@{() -> progress.move(player1, plus7)}" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

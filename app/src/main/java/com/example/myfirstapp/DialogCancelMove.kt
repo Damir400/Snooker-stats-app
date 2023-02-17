@@ -6,11 +6,11 @@ import androidx.fragment.app.DialogFragment
 
 class DialogCancelMove: DialogFragment()  {
 
-    private lateinit var mainActivity: MainActivity
+    private lateinit var progressViewModel: ProgressViewModel
 
 
-    fun setMainActivity(mainActivity: MainActivity){
-        this.mainActivity = mainActivity
+    fun setMainActivity(progressViewModel: ProgressViewModel){
+        this.progressViewModel = progressViewModel
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -20,7 +20,7 @@ class DialogCancelMove: DialogFragment()  {
                 .setMessage("Отменить ход")
                 .setPositiveButton("Да") {
                         dialog, id ->  dialog.dismiss()
-                    mainActivity.cancelMove()
+                    progressViewModel.cancel()
                 }
                 .setNegativeButton("Нет"){
                         dialog, id ->  dialog.dismiss()

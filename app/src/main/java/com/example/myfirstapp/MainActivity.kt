@@ -1,236 +1,162 @@
 package com.example.myfirstapp
 
 import android.annotation.SuppressLint
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
 import android.widget.Button
-import android.widget.ImageButton
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import com.example.myfirstapp.databinding.ActivityMainBinding
+import kotlinx.coroutines.NonCancellable.cancel
 
 class MainActivity : AppCompatActivity() {
-    var player1 = Player(0)
-    var player2 = Player(0)
-
-    var globalScore1 = 0
-    var globalScore2 = 0
-
-    val progress = mutableListOf<Triple<Player, Int, TextView>>()
-
-    lateinit var scorePlayer1: TextView
-    lateinit var scorePlayer2: TextView
-    lateinit var globalScore: TextView
-
-    lateinit var buttonPlayer1: Button
-    lateinit var buttonPlayer2: Button
-    lateinit var buttonPlayer3: Button
-    lateinit var buttonPlayer4: Button
-    lateinit var buttonPlayer5: Button
-    lateinit var buttonPlayer6: Button
-    lateinit var buttonPlayer7: Button
-    lateinit var buttonPlayer8: Button
-    lateinit var buttonPlayer9: Button
-    lateinit var buttonPlayer10: Button
-    lateinit var buttonPlayer11: Button
-    lateinit var buttonPlayer12: Button
-    lateinit var buttonPlayer13: Button
-    lateinit var buttonPlayer14: Button
-    lateinit var buttonPlayer15: Button
-    lateinit var buttonPlayer16: Button
-    lateinit var buttonPlayer17: Button
-    lateinit var buttonPlayer18: Button
-    lateinit var buttonPlayer19: Button
-    lateinit var buttonPlayer20: Button
-    lateinit var buttonPlayer21: Button
-    lateinit var buttonPlayer22: Button
-    lateinit var buttonPlayer23: Button
-    lateinit var buttonPlayer24: Button
-    lateinit var buttonPlayer25: ImageButton
-
-    fun addScore(score: Int, player: Player, scoreView: TextView) {
-        if (player.score + score <= 147) {
-            player.score += score
-            scoreView.text = "${player.score}"
-            progress.add(Triple(player, -score, scoreView))
-        } else {
-            player.score = 147
-            scoreView.text = "${player.score}"
-        }
-    }
+    lateinit var binding: ActivityMainBinding
+//    lateinit var player1: PlayerViewModel
+//    lateinit var player2: PlayerViewModel
 
 
+//    lateinit var progress: ProgressViewModel
+    lateinit var snooker: SnookerViewModel
 
-    fun cancel() {
-        if (!progress.isEmpty()) {
-            progress.last().first.score += progress.last().second
-            progress.last().third.text = "${progress.last().first.score}"
-            progress.removeLast()
-        }
-    }
+//    lateinit var scorePlayer1: TextView
+//    lateinit var scorePlayer2: TextView
+//
+//    var isEnable: Boolean = false
 
-    fun reset(player: Player, scoreView: TextView) {
-        player.score = 0
-        scoreView.text = "${player.score}"
-        progress.clear()
-
-    }
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
-        scorePlayer1 = findViewById<TextView>(R.id.textScore1)
-        scorePlayer2 = findViewById<TextView>(R.id.textScore2)
-        buttonPlayer1 = findViewById<Button>(R.id.button1)
-        buttonPlayer2 = findViewById<Button>(R.id.button2)
-        buttonPlayer3 = findViewById<Button>(R.id.button3)
-        buttonPlayer4 = findViewById<Button>(R.id.button4)
-        buttonPlayer5 = findViewById<Button>(R.id.button5)
-        buttonPlayer6 = findViewById<Button>(R.id.button6)
-        buttonPlayer7 = findViewById<Button>(R.id.button7)
-        buttonPlayer8 = findViewById<Button>(R.id.button8)
-        buttonPlayer9 = findViewById<Button>(R.id.button9)
-        buttonPlayer10 = findViewById<Button>(R.id.button10)
-        buttonPlayer11 = findViewById<Button>(R.id.button11)
-        buttonPlayer12 = findViewById<Button>(R.id.button12)
-        buttonPlayer13 = findViewById<Button>(R.id.button13)
-        buttonPlayer14 = findViewById<Button>(R.id.button14)
-        buttonPlayer15 = findViewById<Button>(R.id.button15)
-        buttonPlayer16 = findViewById<Button>(R.id.button16)
-        buttonPlayer17 = findViewById<Button>(R.id.button17)
-        buttonPlayer18 = findViewById<Button>(R.id.button18)
-        buttonPlayer19 = findViewById<Button>(R.id.button19)
-        buttonPlayer20 = findViewById<Button>(R.id.button20)
-        buttonPlayer21 = findViewById<Button>(R.id.button21)
-        buttonPlayer22 = findViewById<Button>(R.id.button22)
-        buttonPlayer23 = findViewById<Button>(R.id.button23)
-        buttonPlayer24 = findViewById<Button>(R.id.button24)
-        buttonPlayer25 = findViewById<ImageButton>(R.id.button25)
-        globalScore = findViewById(R.id.globalScore)
+//        player1 = PlayerViewModel()
+//        player2 = PlayerViewModel()
+//        progress = ProgressViewModel()
 
-        buttonPlayer1.setOnClickListener {
-            addScore(1, player1, scorePlayer1)
+        snooker = SnookerViewModel(PlayerViewModel(), PlayerViewModel())
+
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+
+        binding.snooker = snooker
+
+//        binding.player1 = player1
+//        binding.player2 = player2
+
+
+//        binding.progress = progress
+
+        binding.plus1 = 1
+        binding.plus2 = 2
+        binding.plus3 = 3
+        binding.plus4 = 4
+        binding.plus5 = 5
+        binding.plus6 = 6
+        binding.plus7 = 7
+
+
+        binding.lifecycleOwner = this
+
+
+
+        binding.cancelBtn.setOnClickListener {
+            showCancelWindow()
         }
 
-        buttonPlayer2.setOnClickListener {
-            addScore(2, player1, scorePlayer1)
+        binding.newGameBtn.setOnClickListener {
+            showNewGameWindow()
         }
-
-        buttonPlayer3.setOnClickListener {
-            addScore(3, player1, scorePlayer1)
-        }
-
-        buttonPlayer4.setOnClickListener {
-            addScore(4, player1, scorePlayer1)
-        }
-
-        buttonPlayer5.setOnClickListener {
-            addScore(5, player1, scorePlayer1)
-        }
-
-        buttonPlayer6.setOnClickListener {
-            addScore(6, player1, scorePlayer1)
-        }
-
-        buttonPlayer7.setOnClickListener {
-            addScore(7, player1, scorePlayer1)
-        }
-
-        buttonPlayer8.setOnClickListener {
-            addScore(1, player2, scorePlayer2)
-
-        }
-
-        buttonPlayer9.setOnClickListener {
-            addScore(2, player2, scorePlayer2)
-        }
-
-        buttonPlayer10.setOnClickListener {
-            addScore(3, player2, scorePlayer2)
-        }
-
-        buttonPlayer11.setOnClickListener {
-            addScore(4, player2, scorePlayer2)
-        }
-
-        buttonPlayer12.setOnClickListener {
-            addScore(5, player2, scorePlayer2)
-        }
-
-        buttonPlayer13.setOnClickListener {
-            addScore(6, player2, scorePlayer2)
-        }
-
-        buttonPlayer14.setOnClickListener {
-            addScore(7, player2, scorePlayer2)
-        }
-// вычитание
-        buttonPlayer15.setOnClickListener {
-            addScore(4, player2, scorePlayer2)
-        }
-
-        buttonPlayer16.setOnClickListener {
-            addScore(5, player2, scorePlayer2)
-        }
-
-        buttonPlayer17.setOnClickListener {
-            addScore(4, player1, scorePlayer1)
-        }
-
-        buttonPlayer18.setOnClickListener {
-            addScore(5, player1, scorePlayer1)
-
-        }
-
-        buttonPlayer19.setOnClickListener {
-            addScore(6, player2, scorePlayer2)
-        }
-
-        buttonPlayer20.setOnClickListener {
-            addScore(7, player2, scorePlayer2)
-        }
-
-        buttonPlayer21.setOnClickListener {
-            addScore(6, player1, scorePlayer1)
-        }
-
-        buttonPlayer22.setOnClickListener {
-            addScore(7, player1, scorePlayer1)
-        }
-
-        //Отмена хода
-        buttonPlayer23.setOnClickListener {
-            val dialogCancelMove = DialogCancelMove()
-            val manager = supportFragmentManager
-            dialogCancelMove.setMainActivity(this)
-            dialogCancelMove.show(manager, "myDialog")
-        }
-
-        //сброс
-        buttonPlayer24.setOnClickListener {
-            val dialogNewGame = DialogNewGame()
-            val manager = supportFragmentManager
-            dialogNewGame.setMainActivity(this)
-            dialogNewGame.show(manager, "myDialog")
-        }
-
-    }
-    fun addGlobalScore(){
-        if (player1.score > player2.score){
-            globalScore1 += 1
-        }
-        else {
-            globalScore2 += 1
-        }
-        globalScore.text = "($globalScore1:$globalScore2)"
+        snooker.frameScoreToString()
     }
 
-    fun cancelMove(){
-        cancel()
+    fun showCancelWindow() {
+
+        val builder: AlertDialog.Builder = this.let {
+            AlertDialog.Builder(it)
+        }
+        builder.setMessage("Подтверждение действия")
+            ?.setTitle("Отменить ход?")
+            ?.setPositiveButton("ДА", { dialog, id ->
+                dialog.dismiss()
+                snooker.cancel()
+            })
+            ?.setNegativeButton("НЕТ", { dialog, id ->
+                dialog.dismiss()
+            })
+            ?.create()?.show()
+
     }
 
-    fun resetGame() {
-        reset(player1, scorePlayer1)
-        reset(player2, scorePlayer2)
+    fun showNewGameWindow() {
+
+        val builder: AlertDialog.Builder = this.let {
+            AlertDialog.Builder(it)
+        }
+        builder.setMessage("Подтверждение действия")
+            ?.setTitle("Начать новую игру?")
+            ?.setPositiveButton("ДА", { dialog, id ->
+                dialog.dismiss()
+                snooker.addGlobalScore()
+
+            })
+            ?.setNegativeButton("НЕТ", { dialog, id ->
+                dialog.dismiss()
+            })
+            ?.create()?.show()
+
     }
+
+
+//    fun move(player: PlayerViewModel, score: Int) {
+//        snooker.move(player, score)
+//
+////        if(player == player1){
+////            if(binding.plus1Player1Btn.isEnabled){
+////                binding.plus1Player1Btn.isEnabled = false
+////                binding.plus2Player1Btn.isEnabled = true
+////                binding.plus3Player1Btn.isEnabled = true
+////                binding.plus4Player1Btn.isEnabled = true
+////                binding.plus5Player1Btn.isEnabled = true
+////                binding.plus6Player1Btn.isEnabled = true
+////                binding.plus7Player1Btn.isEnabled = true
+////            }
+////            else {
+////                binding.plus1Player1Btn.isEnabled = true
+////                binding.plus2Player1Btn.isEnabled = false
+////                binding.plus3Player1Btn.isEnabled = false
+////                binding.plus4Player1Btn.isEnabled = false
+////                binding.plus5Player1Btn.isEnabled = false
+////                binding.plus6Player1Btn.isEnabled = false
+////                binding.plus7Player1Btn.isEnabled = false
+////            }
+////        }
+////
+////        if(player == player2){
+////            if(binding.plus1Player2Btn.isEnabled){
+////                binding.plus1Player2Btn.isEnabled = false
+////                binding.plus2Player2Btn.isEnabled = true
+////                binding.plus3Player2Btn.isEnabled = true
+////                binding.plus4Player2Btn.isEnabled = true
+////                binding.plus5Player2Btn.isEnabled = true
+////                binding.plus6Player2Btn.isEnabled = true
+////                binding.plus7Player2Btn.isEnabled = true
+////            }
+////            else {
+////                binding.plus1Player2Btn.isEnabled = true
+////                binding.plus2Player2Btn.isEnabled = false
+////                binding.plus3Player2Btn.isEnabled = false
+////                binding.plus4Player2Btn.isEnabled = false
+////                binding.plus5Player2Btn.isEnabled = false
+////                binding.plus6Player2Btn.isEnabled = false
+////                binding.plus7Player2Btn.isEnabled = false
+////            }
+////        }
+////
+////        }
+//
+////        button.isEnabled = false
+////        button.alpha = 0.8F
+//    }
 }
+
