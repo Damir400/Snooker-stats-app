@@ -67,6 +67,7 @@ class MainActivity : AppCompatActivity() {
         binding.newGameBtn.setOnClickListener {
             showNewGameWindow()
         }
+        
         snooker.frameScoreToString()
     }
 
