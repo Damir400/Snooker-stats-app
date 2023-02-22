@@ -1,9 +1,16 @@
 package com.example.myfirstapp
 
+import android.os.Parcelable
+import android.widget.EditText
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+//import kotlinx.parcelize.Parcelize
 
-class PlayerViewModel {
+class PlayerViewModel { //(playerName: String)
+    private val _name = MutableLiveData<String>()
+    var name: LiveData<String> = _name
+
+
     private val maxScore = 147
     private var _score = MutableLiveData(0)
     var score: LiveData<Int> = _score
@@ -14,7 +21,14 @@ class PlayerViewModel {
     private val _balls = MutableLiveData<MutableMap<BallType,SnookerBallViewModel>>()
     var balls: LiveData<MutableMap<BallType,SnookerBallViewModel>> = _balls
 
+    private var _historyFramePlayer = MutableLiveData<MutableList<Int>>()
+    var historyFramePlayer: LiveData<MutableList<Int>> = _historyFramePlayer
+
+
     init {
+
+        _historyFramePlayer.value = mutableListOf()
+//        _name.value = playerName
         _balls.value = mutableMapOf(
             BallType.SNOOKER_RED to SnookerBallViewModel(1, 5, BallType.SNOOKER_RED)
 //                    BallType.SNOOKER_RED to SnookerBallViewModel(1, 15, BallType.SNOOKER_RED)
@@ -35,7 +49,6 @@ class PlayerViewModel {
 //    fun addScore(ballType: BallType = BallType.SNOOKER_RED) {
 //        _score.value = (_score.value ?: 0) + _balls.value!![ballType]!!.points.value!!
 //    }
-
 
     fun addScore(addedScore: Int) {
         if (isMax(addedScore)) {
@@ -140,4 +153,17 @@ class PlayerViewModel {
         return (_score.value ?: 0) + addedScore > maxScore
     }
 
+    fun getNamePlayer(textPlayer : EditText, defaultName : String){
+
+        if(textPlayer.text.isEmpty()){
+            _name.value = defaultName
+        }
+        else{
+            _name.value = textPlayer.text.toString()
+        }
+    }
+
+    fun addHistoryFrame(){
+        _historyFramePlayer.value?.add(score.value!!)
+    }
 }

@@ -18,6 +18,8 @@ class SnookerViewModel(player1: PlayerViewModel, player2: PlayerViewModel) {
     private val _frameScore = MutableLiveData<String>()
     var frameScore: LiveData<String> = _frameScore
 
+
+
     init {
         _progress.value = mutableListOf()
         _player1.value = player1
@@ -40,6 +42,7 @@ class SnookerViewModel(player1: PlayerViewModel, player2: PlayerViewModel) {
 //        nexPlayer!!.updateBallsState(ballType, false)
     }
 
+    // Отмена хода
     fun cancel() {
         if (!_progress.value?.isEmpty()!!) {
             var (player, score) = _progress.value!!.last()
@@ -49,7 +52,9 @@ class SnookerViewModel(player1: PlayerViewModel, player2: PlayerViewModel) {
         }
     }
 
-    fun addGlobalScore (){
+    // Добавление очков в счёт фреймов
+    fun
+            addGlobalScore (){
         if ((player1.value!!.score.value ?: 0) > (player2.value!!.score.value ?: 0)){
             player1.value!!.addGlobalScorePlayer()
         }
@@ -67,6 +72,7 @@ class SnookerViewModel(player1: PlayerViewModel, player2: PlayerViewModel) {
         _frameScore.value = "${(player1.value!!.globalScore.value!!)}:${(player2.value!!.globalScore.value!!)}"
     }
 
+    // обнуление значений для нового турнира
     fun newTournament(){
         player1.value!!.setScore(0)
         player2.value!!.setScore(0)
@@ -77,5 +83,10 @@ class SnookerViewModel(player1: PlayerViewModel, player2: PlayerViewModel) {
 
         frameScoreToString()
 
+    }
+
+    fun addHistoryPlayers(){
+        player1.value!!.addHistoryFrame()
+        player2.value!!.addHistoryFrame()
     }
 }

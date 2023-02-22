@@ -1,8 +1,9 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
-
     id 'kotlin-kapt'
+    id 'kotlin-android-extensions'
+
 }
 
 apply plugin: 'kotlin-kapt'
@@ -14,7 +15,7 @@ android {
     defaultConfig {
         applicationId "com.example.myfirstapp"
         minSdk 24
-        targetSdk 24
+        targetSdk 31
         versionCode 1
         versionName "1.0"
 

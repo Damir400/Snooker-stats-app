@@ -3,6 +3,7 @@ package com.example.myfirstapp
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
@@ -10,6 +11,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.example.myfirstapp.databinding.ActivityMainBinding
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.NonCancellable.cancel
 
 class MainActivity : AppCompatActivity() {
@@ -21,6 +23,8 @@ class MainActivity : AppCompatActivity() {
 //    lateinit var progress: ProgressViewModel
     lateinit var snooker: SnookerViewModel
 
+//    lateinit var bottomSheetFragment: BottomSheetFragment
+
 //    lateinit var scorePlayer1: TextView
 //    lateinit var scorePlayer2: TextView
 //
@@ -31,21 +35,12 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-//        player1 = PlayerViewModel()
-//        player2 = PlayerViewModel()
-//        progress = ProgressViewModel()
-
         snooker = SnookerViewModel(PlayerViewModel(), PlayerViewModel())
+
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         binding.snooker = snooker
-
-//        binding.player1 = player1
-//        binding.player2 = player2
-
-
-//        binding.progress = progress
 
         binding.plus1 = 1
         binding.plus2 = 2
@@ -55,8 +50,22 @@ class MainActivity : AppCompatActivity() {
         binding.plus6 = 6
         binding.plus7 = 7
 
-
         binding.lifecycleOwner = this
+
+
+
+
+        val bottomSheetFragment = BottomSheetFragment(snooker)
+
+        //------------------------------
+        binding.history.setOnClickListener {
+            snooker.player1.value!!.getNamePlayer(textUser1, "Игрок 1")
+            snooker.player2.value!!.getNamePlayer(textUser2,"Игрок 2")
+
+            bottomSheetFragment.show(supportFragmentManager, "BottomSheetDialog")
+//            bottomSheetFragment.updatePlayersName("player1 and player2")
+        }
+        //------------------------------
 
 
 
@@ -101,11 +110,12 @@ class MainActivity : AppCompatActivity() {
         }
         builder.setMessage("Подтверждение действия")
             ?.setTitle("Начать новую игру?")
-            ?.setPositiveButton("ДА", { dialog, id ->
+            ?.setPositiveButton("ДА") { dialog, id ->
                 dialog.dismiss()
+                snooker.addHistoryPlayers()
                 snooker.addGlobalScore()
 
-            })
+            }
             ?.setNegativeButton("НЕТ", { dialog, id ->
                 dialog.dismiss()
             })
@@ -131,55 +141,22 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-//    fun move(player: PlayerViewModel, score: Int) {
-//        snooker.move(player, score)
+
+
+
+//    fun history(){
+//        val historyIntent = Intent(this, BottomSheetFragment::class.java)
 //
-////        if(player == player1){
-////            if(binding.plus1Player1Btn.isEnabled){
-////                binding.plus1Player1Btn.isEnabled = false
-////                binding.plus2Player1Btn.isEnabled = true
-////                binding.plus3Player1Btn.isEnabled = true
-////                binding.plus4Player1Btn.isEnabled = true
-////                binding.plus5Player1Btn.isEnabled = true
-////                binding.plus6Player1Btn.isEnabled = true
-////                binding.plus7Player1Btn.isEnabled = true
-////            }
-////            else {
-////                binding.plus1Player1Btn.isEnabled = true
-////                binding.plus2Player1Btn.isEnabled = false
-////                binding.plus3Player1Btn.isEnabled = false
-////                binding.plus4Player1Btn.isEnabled = false
-////                binding.plus5Player1Btn.isEnabled = false
-////                binding.plus6Player1Btn.isEnabled = false
-////                binding.plus7Player1Btn.isEnabled = false
-////            }
-////        }
-////
-////        if(player == player2){
-////            if(binding.plus1Player2Btn.isEnabled){
-////                binding.plus1Player2Btn.isEnabled = false
-////                binding.plus2Player2Btn.isEnabled = true
-////                binding.plus3Player2Btn.isEnabled = true
-////                binding.plus4Player2Btn.isEnabled = true
-////                binding.plus5Player2Btn.isEnabled = true
-////                binding.plus6Player2Btn.isEnabled = true
-////                binding.plus7Player2Btn.isEnabled = true
-////            }
-////            else {
-////                binding.plus1Player2Btn.isEnabled = true
-////                binding.plus2Player2Btn.isEnabled = false
-////                binding.plus3Player2Btn.isEnabled = false
-////                binding.plus4Player2Btn.isEnabled = false
-////                binding.plus5Player2Btn.isEnabled = false
-////                binding.plus6Player2Btn.isEnabled = false
-////                binding.plus7Player2Btn.isEnabled = false
-////            }
-////        }
-////
-////        }
+//        val name1String = binding.textUser1.text.toString()
+//        val name2String = binding.textUser2.text.toString()
 //
-////        button.isEnabled = false
-////        button.alpha = 0.8F
+//        val player1Score = snooker.player1.value!!.historyFramePlayer1.value!!.joinToString(separator = ",")
+//        val player2Score = snooker.player2.value!!.historyFramePlayer2.value!!.joinToString(separator = ",")
+//
+//        historyIntent.putExtra(BottomSheetFragment.NAME1,name1String)
+//        historyIntent.putExtra(BottomSheetFragment.NAME2,name2String)
+//        historyIntent.putExtra(BottomSheetFragment.SCORE1, player1Score)
+//        historyIntent.putExtra(BottomSheetFragment.SCORE2, player2Score)
 //    }
 }
 
