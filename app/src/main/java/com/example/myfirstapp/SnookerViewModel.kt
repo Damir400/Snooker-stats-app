@@ -81,6 +81,9 @@ class SnookerViewModel(player1: PlayerViewModel, player2: PlayerViewModel) {
         player1.value!!.clearGlobalScore()
         player2.value!!.clearGlobalScore()
 
+        player1.value!!.historyFramePlayer.value!!.clear()
+        player2.value!!.historyFramePlayer.value!!.clear()
+
         frameScoreToString()
 
     }

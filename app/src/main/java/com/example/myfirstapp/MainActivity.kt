@@ -82,6 +82,10 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
+        binding.switchThemes.setOnClickListener{
+            changeImgBall()
+        }
+
         snooker.frameScoreToString()
     }
 
@@ -90,8 +94,7 @@ class MainActivity : AppCompatActivity() {
         val builder: AlertDialog.Builder = this.let {
             AlertDialog.Builder(it)
         }
-        builder.setMessage("Подтверждение действия")
-            ?.setTitle("Отменить ход?")
+        builder.setTitle("Отменить ход?")
             ?.setPositiveButton("ДА", { dialog, id ->
                 dialog.dismiss()
                 snooker.cancel()
@@ -108,8 +111,7 @@ class MainActivity : AppCompatActivity() {
         val builder: AlertDialog.Builder = this.let {
             AlertDialog.Builder(it)
         }
-        builder.setMessage("Подтверждение действия")
-            ?.setTitle("Начать новую игру?")
+        builder.setTitle("Начать новую игру?")
             ?.setPositiveButton("ДА") { dialog, id ->
                 dialog.dismiss()
                 snooker.addHistoryPlayers()
@@ -127,8 +129,7 @@ class MainActivity : AppCompatActivity() {
         val builder: AlertDialog.Builder = this.let {
             AlertDialog.Builder(it)
         }
-        builder.setMessage("Подтверждение действия")
-            ?.setTitle("Начать новую сессию?")
+        builder.setTitle("Начать новую сессию?")
             ?.setPositiveButton("ДА", { dialog, id ->
                 dialog.dismiss()
                 snooker.newTournament()
@@ -140,7 +141,41 @@ class MainActivity : AppCompatActivity() {
             ?.create()?.show()
     }
 
+    fun changeImgBall(){
+        if (switchThemes.isChecked){
+            plus1Player1Btn.setImageDrawable(getResources().getDrawable(R.drawable.a_ball1, getApplicationContext().getTheme()))
+            plus2Player1Btn.setImageDrawable(getResources().getDrawable(R.drawable.a_ball2, getApplicationContext().getTheme()))
+            plus3Player1Btn.setImageDrawable(getResources().getDrawable(R.drawable.a_ball3, getApplicationContext().getTheme()))
+            plus4Player1Btn.setImageDrawable(getResources().getDrawable(R.drawable.a_ball4, getApplicationContext().getTheme()))
+            plus5Player1Btn.setImageDrawable(getResources().getDrawable(R.drawable.a_ball5, getApplicationContext().getTheme()))
+            plus6Player1Btn.setImageDrawable(getResources().getDrawable(R.drawable.a_ball6, getApplicationContext().getTheme()))
+            plus7Player1Btn.setImageDrawable(getResources().getDrawable(R.drawable.a_ball7, getApplicationContext().getTheme()))
 
+            plus1Player2Btn.setImageDrawable(getResources().getDrawable(R.drawable.a_ball1, getApplicationContext().getTheme()))
+            plus2Player2Btn.setImageDrawable(getResources().getDrawable(R.drawable.a_ball2, getApplicationContext().getTheme()))
+            plus3Player2Btn.setImageDrawable(getResources().getDrawable(R.drawable.a_ball3, getApplicationContext().getTheme()))
+            plus4Player2Btn.setImageDrawable(getResources().getDrawable(R.drawable.a_ball4, getApplicationContext().getTheme()))
+            plus5Player2Btn.setImageDrawable(getResources().getDrawable(R.drawable.a_ball5, getApplicationContext().getTheme()))
+            plus6Player2Btn.setImageDrawable(getResources().getDrawable(R.drawable.a_ball6, getApplicationContext().getTheme()))
+            plus7Player2Btn.setImageDrawable(getResources().getDrawable(R.drawable.a_ball7, getApplicationContext().getTheme()))
+        }
+        else {
+            plus1Player1Btn.setImageDrawable(getResources().getDrawable(R.drawable.ball1, getApplicationContext().getTheme()))
+            plus2Player1Btn.setImageDrawable(getResources().getDrawable(R.drawable.ball2, getApplicationContext().getTheme()))
+            plus3Player1Btn.setImageDrawable(getResources().getDrawable(R.drawable.ball3, getApplicationContext().getTheme()))
+            plus4Player1Btn.setImageDrawable(getResources().getDrawable(R.drawable.ball4, getApplicationContext().getTheme()))
+            plus5Player1Btn.setImageDrawable(getResources().getDrawable(R.drawable.ball5, getApplicationContext().getTheme()))
+            plus6Player1Btn.setImageDrawable(getResources().getDrawable(R.drawable.ball6, getApplicationContext().getTheme()))
+            plus7Player1Btn.setImageDrawable(getResources().getDrawable(R.drawable.ball7, getApplicationContext().getTheme()))
+
+            plus1Player2Btn.setImageDrawable(getResources().getDrawable(R.drawable.ball1, getApplicationContext().getTheme()))
+            plus2Player2Btn.setImageDrawable(getResources().getDrawable(R.drawable.ball2, getApplicationContext().getTheme()))
+            plus3Player2Btn.setImageDrawable(getResources().getDrawable(R.drawable.ball3, getApplicationContext().getTheme()))
+            plus4Player2Btn.setImageDrawable(getResources().getDrawable(R.drawable.ball4, getApplicationContext().getTheme()))
+            plus5Player2Btn.setImageDrawable(getResources().getDrawable(R.drawable.ball5, getApplicationContext().getTheme()))
+            plus6Player2Btn.setImageDrawable(getResources().getDrawable(R.drawable.ball6, getApplicationContext().getTheme()))
+            plus7Player2Btn.setImageDrawable(getResources().getDrawable(R.drawable.ball7, getApplicationContext().getTheme()))        }
+    }
 
 
 
