@@ -95,11 +95,25 @@ class MainActivity : AppCompatActivity() {
 
         binding.playTimer.setOnClickListener{
             counterToochingPlayBtn ++
-            if (counterToochingPlayBtn % 2 != 0){
+            if (counterToochingPlayBtn % 2 != 0) {
+                playTimer.setImageDrawable(
+                    getResources().getDrawable(
+                        R.drawable.stop,
+                        getApplicationContext().getTheme()
+                    )
+                )
                 startTimer()
                 timer.start()
             }
-            else timer.cancel()
+            else {
+                playTimer.setImageDrawable(
+                    getResources().getDrawable(
+                        R.drawable.play,
+                        getApplicationContext().getTheme()
+                    )
+                )
+                timer.cancel()
+            }
         }
 
 //        binding.playTimer.setOnLongClickListener{
@@ -210,6 +224,12 @@ class MainActivity : AppCompatActivity() {
             override fun onFinish() {
                 playSound()
                 timer_game.setText(installTime)
+                playTimer.setImageDrawable(
+                    getResources().getDrawable(
+                        R.drawable.play,
+                        getApplicationContext().getTheme()
+                    )
+                )
             }
 
         }
