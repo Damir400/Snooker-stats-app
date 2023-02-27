@@ -1,7 +1,13 @@
 package com.example.myfirstapp
 
+import android.icu.text.SimpleDateFormat
+import android.os.CountDownTimer
+import android.text.format.DateFormat
+import android.widget.EditText
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import kotlinx.android.synthetic.main.activity_main.*
+import java.util.stream.Collectors.toList
 
 class SnookerViewModel(player1: PlayerViewModel, player2: PlayerViewModel) {
 //    private val _maxScore = 147
@@ -18,12 +24,20 @@ class SnookerViewModel(player1: PlayerViewModel, player2: PlayerViewModel) {
     private val _frameScore = MutableLiveData<String>()
     var frameScore: LiveData<String> = _frameScore
 
+    private val _timeFrame = MutableLiveData<Int>()
+    var timeFrame: LiveData<Int> = _timeFrame
+
+//    lateinit var timer : CountDownTimer
+
+
 
 
     init {
         _progress.value = mutableListOf()
         _player1.value = player1
         _player2.value = player2
+
+
     }
 
     fun move(teamId: Teams, ballType: BallType = BallType.SNOOKER_RED){
@@ -38,8 +52,6 @@ class SnookerViewModel(player1: PlayerViewModel, player2: PlayerViewModel) {
         _progress.value?.add(Pair(curPlayer, -score))
         curPlayer.addScore(score)
 
-//        curPlayer!!.updateBallsState(ballType)
-//        nexPlayer!!.updateBallsState(ballType, false)
     }
 
     // Отмена хода
@@ -53,8 +65,7 @@ class SnookerViewModel(player1: PlayerViewModel, player2: PlayerViewModel) {
     }
 
     // Добавление очков в счёт фреймов
-    fun
-            addGlobalScore (){
+    fun addGlobalScore (){
         if ((player1.value!!.score.value ?: 0) > (player2.value!!.score.value ?: 0)){
             player1.value!!.addGlobalScorePlayer()
         }
@@ -92,4 +103,8 @@ class SnookerViewModel(player1: PlayerViewModel, player2: PlayerViewModel) {
         player1.value!!.addHistoryFrame()
         player2.value!!.addHistoryFrame()
     }
+
+
+
+
 }

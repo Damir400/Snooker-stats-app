@@ -4,8 +4,11 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.media.MediaPlayer
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +16,8 @@ import androidx.databinding.DataBindingUtil
 import com.example.myfirstapp.databinding.ActivityMainBinding
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.NonCancellable.cancel
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
@@ -22,6 +27,14 @@ class MainActivity : AppCompatActivity() {
 
 //    lateinit var progress: ProgressViewModel
     lateinit var snooker: SnookerViewModel
+
+    lateinit var timer : CountDownTimer
+    var timerMin = 0
+    var timerSec = 0
+    var installTime = ""
+    var counterToochingPlayBtn = 0
+
+    var mMediaPlayer: MediaPlayer? = null
 
 //    lateinit var bottomSheetFragment: BottomSheetFragment
 
@@ -53,20 +66,14 @@ class MainActivity : AppCompatActivity() {
         binding.lifecycleOwner = this
 
 
-
-
         val bottomSheetFragment = BottomSheetFragment(snooker)
 
-        //------------------------------
         binding.history.setOnClickListener {
             snooker.player1.value!!.getNamePlayer(textUser1, "Игрок 1")
             snooker.player2.value!!.getNamePlayer(textUser2,"Игрок 2")
 
             bottomSheetFragment.show(supportFragmentManager, "BottomSheetDialog")
-//            bottomSheetFragment.updatePlayersName("player1 and player2")
         }
-        //------------------------------
-
 
 
         binding.cancelBtn.setOnClickListener {
@@ -86,7 +93,23 @@ class MainActivity : AppCompatActivity() {
             changeImgBall()
         }
 
+        binding.playTimer.setOnClickListener{
+            counterToochingPlayBtn ++
+            if (counterToochingPlayBtn % 2 != 0){
+                startTimer()
+                timer.start()
+            }
+            else timer.cancel()
+        }
+
+//        binding.playTimer.setOnLongClickListener{
+//            startTimer()
+//        }
+
+
         snooker.frameScoreToString()
+
+
     }
 
     fun showCancelWindow() {
@@ -178,20 +201,83 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    fun startTimer(){
+        timer = object : CountDownTimer(convertTime(timer_game, 600000), 1000){
+            override fun onTick(p0: Long) {
+                showTimer()
+            }
 
-//    fun history(){
-//        val historyIntent = Intent(this, BottomSheetFragment::class.java)
-//
-//        val name1String = binding.textUser1.text.toString()
-//        val name2String = binding.textUser2.text.toString()
-//
-//        val player1Score = snooker.player1.value!!.historyFramePlayer1.value!!.joinToString(separator = ",")
-//        val player2Score = snooker.player2.value!!.historyFramePlayer2.value!!.joinToString(separator = ",")
-//
-//        historyIntent.putExtra(BottomSheetFragment.NAME1,name1String)
-//        historyIntent.putExtra(BottomSheetFragment.NAME2,name2String)
-//        historyIntent.putExtra(BottomSheetFragment.SCORE1, player1Score)
-//        historyIntent.putExtra(BottomSheetFragment.SCORE2, player2Score)
-//    }
+            override fun onFinish() {
+                playSound()
+                timer_game.setText(installTime)
+            }
+
+        }
+    }
+
+    fun convertTime(time : EditText, defaultTime : Long): Long {
+
+        var convertTime : Long
+
+        if (time.text.isEmpty()){
+
+            timerMin = (defaultTime / 60000).toInt()
+            timerSec = ((defaultTime - timerMin * 60000) / 1000).toInt()
+            installTime = "${timerMin}:${timerSec}"
+            return defaultTime
+        } else{
+            var currentTime = time.text.trim().splitToSequence(':').toList()
+            convertTime = (currentTime.get(0).toInt() * 60000 + currentTime.get(1).toInt() * 1000).toLong()
+
+            timerMin = currentTime.get(0).toInt()
+            timerSec = currentTime.get(1).toInt()
+            installTime = time.text.toString()
+            return convertTime
+        }
+    }
+
+    fun showTimer(){
+        if(timerMin < 10){
+            if (timerSec > 0){
+                if (timerSec < 11){
+                    timerSec -= 1
+                    timer_game.setText("0${timerMin}:0${timerSec}")
+                    return
+                }
+                timerSec -= 1
+                timer_game.setText("0${timerMin}:${timerSec}")
+                return
+            }
+            else if (timerMin > 0 && timerSec == 0){
+                timerMin -= 1
+                timerSec = 59
+                timer_game.setText("0${timerMin}:${timerSec}")
+                return
+            }
+            else if(timerMin == 0 && timerSec == 0){
+                timer_game.setText("00:00")
+                return
+            }
+        }
+
+        if (timerSec > 0){
+            if (timerSec < 11){
+                timerSec -= 1
+                timer_game.setText("${timerMin}:0${timerSec}")
+                return
+            }
+            timerSec -= 1
+            timer_game.setText("${timerMin}:${timerSec}")
+            return
+        }
+    }
+
+    fun playSound() {
+        if (mMediaPlayer == null) {
+            mMediaPlayer = MediaPlayer.create(this, R.raw.budilnik)
+            mMediaPlayer!!.start()
+        } else mMediaPlayer!!.start()
+    }
+
 }
 

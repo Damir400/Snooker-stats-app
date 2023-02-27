@@ -94,21 +94,6 @@ class PlayerViewModel { //(playerName: String)
             }
         }
 
-//        val ball = balls.value!![ballType]
-//
-//        if(balls.value!![BallType.SNOOKER_RED]!!.count.value!! > 0) {
-//            if (ballType == BallType.SNOOKER_RED) {
-//                ball!!.count.value = ball.count.value?.minus(1)
-//
-//                ball.update(false)
-//
-//            }
-//
-//        }
-//        else if(ballType != BallType.SNOOKER_RED){
-//            ball!!.count.value = ball.count.value?.minus(1)
-//        }
-
     }
 
     fun updateBalls(ballType: BallType = BallType.SNOOKER_RED){

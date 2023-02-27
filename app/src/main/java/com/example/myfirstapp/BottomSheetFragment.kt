@@ -18,14 +18,6 @@ class BottomSheetFragment(snookerViewModel: SnookerViewModel): BottomSheetDialog
 
     lateinit var binding: BottomsheetFragmentBinding
 
-
-    companion object{
-        const val NAME1 = "name1"
-        const val NAME2 = "name2"
-        const val SCORE1 = "name2"
-        const val SCORE2 = "name2"
-    }
-
     val snookerViewModel: SnookerViewModel
 
     init {
@@ -48,17 +40,11 @@ class BottomSheetFragment(snookerViewModel: SnookerViewModel): BottomSheetDialog
         binding.historyFrame1.text = snookerViewModel.player1.value!!.historyFramePlayer.value?.joinToString(separator = "\n")
         binding.historyFrame2.text = snookerViewModel.player2.value!!.historyFramePlayer.value?.joinToString(separator = "\n")
 
-
-//        playersName = qwe.findViewById(R.id.playersName)
-//        playersName.text = "${snookerViewModel.player1.value!!.name.value!!}, ${snookerViewModel.player2.value!!.name.value!!}"
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
     }
 }
 
