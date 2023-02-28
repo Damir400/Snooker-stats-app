@@ -4,11 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-<!--        <variable name="player1" type="com.example.myfirstapp.PlayerViewModel" />-->
-<!--        <variable name="player2" type="com.example.myfirstapp.PlayerViewModel" />-->
-
-<!--        <variable name="progress" type="com.example.myfirstapp.ProgressViewModel" />-->
-
 
         <variable name="snooker" type="com.example.myfirstapp.SnookerViewModel" />
         <variable name="ballType" type="com.example.myfirstapp.BallType" />
@@ -28,52 +23,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".MainActivity"
-        android:background="#01752C">
-
-<!--        <Button-->
-<!--            android:id="@+id/cancelBtn"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="0dp"-->
-<!--            app:layout_constraintWidth_default="wrap"-->
-<!--            app:layout_constraintHeight_default="wrap"-->
-<!--            android:scaleType="centerCrop"-->
-<!--            app:layout_constraintLeft_toLeftOf="parent"-->
-<!--            android:layout_marginTop="16dp"-->
-<!--            android:layout_marginStart="12dp"-->
-<!--            android:text="Отмена "-->
-<!--            android:textSize="18sp"-->
-<!--            android:textColor="@color/black"-->
-<!--            android:backgroundTint="#B2E8C6"-->
-<!--            style="@style/Widget.MaterialComponents.Button.OutlinedButton"-->
-<!--            app:strokeColor="@color/black"-->
-<!--            app:strokeWidth="2dp"-->
-<!--            app:cornerRadius="6dp"-->
-<!--            tools:ignore="MissingConstraints" />-->
-
-<!--        <Button-->
-<!--            android:id="@+id/history"-->
-<!--            style="@style/Widget.MaterialComponents.Button.OutlinedButton"-->
-<!--            android:layout_width="50dp"-->
-<!--            android:layout_height="50dp"-->
-<!--            android:layout_marginTop="16dp"-->
-<!--            android:backgroundTint="#B2E8C6"-->
-<!--            android:scaleType="centerCrop"-->
-<!--            android:text="Н"-->
-<!--            android:textColor="@color/black"-->
-<!--            android:textSize="12sp"-->
-<!--            app:cornerRadius="6dp"-->
-<!--            app:layout_constraintHeight_default="wrap"-->
-<!--            app:layout_constraintLeft_toLeftOf="parent"-->
-<!--            app:layout_constraintRight_toRightOf="parent"-->
-<!--            app:layout_constraintWidth_default="wrap"-->
-<!--            app:strokeColor="@color/black"-->
-<!--            app:strokeWidth="2dp"-->
-<!--            tools:ignore="MissingConstraints" />-->
+        android:background="#01752C"
+        tools:ignore="MissingClass">
 
         <ImageButton
             android:id="@+id/cancelBtn"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
             app:layout_constraintHeight_default="wrap"
             app:layout_constraintWidth_default="wrap"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -85,12 +41,10 @@
             android:layout_marginStart="10dp"
             tools:ignore="MissingConstraints" />
 
-
-
         <ImageButton
             android:id="@+id/newGameBtn"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
             app:layout_constraintHeight_default="wrap"
             app:layout_constraintWidth_default="wrap"
             app:layout_constraintLeft_toRightOf="@id/cancelBtn"
@@ -102,32 +56,58 @@
             android:layout_marginStart="10dp"
             tools:ignore="MissingConstraints" />
 
-        <EditText
-            android:id="@+id/timer_game"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintHeight_default="wrap"
-            app:layout_constraintWidth_default="wrap"
-            app:layout_constraintLeft_toRightOf="@id/newGameBtn"
-            app:layout_constraintRight_toLeftOf="@id/playTimer"
-            app:layout_constraintTop_toTopOf="parent"
-            android:gravity="center"
-            android:layout_marginTop="8dp"
-            android:cursorVisible="false"
-            android:hint="10:00"
-            android:textColorHint="#0E4711"
-            android:inputType="time"
-            android:background="@null"
-            android:maxLength="10"
-            android:textColor="@color/white"
-            android:textSize="45sp"
-            android:scaleType="centerCrop"
-            tools:ignore="TextFields" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            tools:ignore="MissingConstraints">
+            <com.vicmikhailau.maskededittext.MaskedEditText
+                android:id="@+id/timer_game"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintHeight_default="wrap"
+                app:layout_constraintWidth_default="wrap"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+
+                app:layout_constraintTop_toTopOf="parent"
+                android:gravity="center"
+                android:cursorVisible="false"
+                app:mask="##:##"
+                android:hint="15:00"
+                android:textColorHint="#0E4711"
+                android:inputType="time"
+                android:background="@null"
+                android:maxLength="5"
+                android:textColor="@color/white"
+                android:textSize="45sp"
+                android:scaleType="centerCrop"
+                tools:ignore="MissingConstraints,TextFields" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+<!--        <EditText-->
+<!--            android:id="@+id/timer_game"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="0dp"_toTopOf="parent"-->
+<!--            android:gravity="center"-->
+<!--            android:layout_marginTop="6dp"-->
+<!--            android:cursorVisible="false"-->
+<!--            android:hint="15:00"-->
+<!--            android:textColorHint="#0E4711"-->
+<!--            android:inputType="time"-->
+<!--            android:background="@null"-->
+<!--            android:maxLength="5"-->
+<!--            android:textColor="@color/white"-->
+<!--            android:textSize="45sp"-->
+<!--            android:scaleType="centerCrop"-->
+<!--            tools:ignore="TextFields" />-->
+
 
         <ImageButton
             android:id="@+id/playTimer"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
             app:layout_constraintHeight_default="wrap"
             app:layout_constraintWidth_default="wrap"
             app:layout_constraintRight_toLeftOf="@id/history"
@@ -141,8 +121,8 @@
 
         <ImageButton
             android:id="@+id/history"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
             app:layout_constraintHeight_default="wrap"
             app:layout_constraintWidth_default="wrap"
             app:layout_constraintRight_toRightOf="parent"
@@ -167,7 +147,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="210dp"
+            android:layout_marginTop="240dp"
             android:text="@{snooker.frameScore}"
             android:textColor="@color/white"
             android:shadowColor="@color/black"
@@ -190,6 +170,7 @@
             android:id="@+id/clPart1"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_marginBottom="40dp"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_chainStyle="spread"
@@ -197,171 +178,168 @@
             app:layout_constraintRight_toLeftOf="@+id/clPart2">
 
 
-
             <EditText
                 android:id="@+id/textUser1"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:layout_marginTop="75dp"
+                android:background="@null"
+                android:cursorVisible="false"
+                android:gravity="center"
+                android:hint="ИГРОК 1"
+                android:inputType="text"
+                android:maxLength="10"
+                android:scaleType="centerCrop"
+                android:textColor="@color/white"
+                android:textColorHint="#0E4711"
+                android:textSize="35sp"
                 app:layout_constraintHeight_default="wrap"
-                app:layout_constraintWidth_default="wrap"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginTop="75dp"
-                android:gravity="center"
-                android:cursorVisible="false"
-                android:hint="ИГРОК 1"
-                android:textColorHint="#0E4711"
-                android:inputType="text"
-                android:background="@null"
-                android:maxLength="10"
-                android:textColor="@color/white"
-                android:textSize="35sp"
-                android:scaleType="centerCrop"
+                app:layout_constraintWidth_default="wrap"
                 tools:ignore="TextFields" />
 
             <TextView
                 android:id="@+id/textScore1"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                app:layout_constraintWidth_default="wrap"
-                app:layout_constraintHeight_default="wrap"
                 android:scaleType="centerCrop"
+                android:shadowColor="@color/black"
+                android:shadowRadius="20"
+                android:text="@{Integer.toString(snooker.player1.score)}"
+                android:textColor="@color/white"
+                android:textSize="100sp"
+                app:layout_constraintHeight_default="wrap"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textUser1"
-                android:text="@{Integer.toString(snooker.player1.score)}"
-                android:textColor="@color/white"
-                android:shadowColor="@color/black"
-                android:shadowRadius="20"
-                android:textSize="100sp" />
+                app:layout_constraintWidth_default="wrap" />
 
             <ImageButton
                 android:id="@+id/plus1Player1Btn"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
-                app:layout_constraintWidth_default="wrap"
-                app:layout_constraintHeight_default="wrap"
-                android:scaleType="centerCrop"
-                app:layout_constraintLeft_toLeftOf="parent"
                 android:layout_marginStart="10dp"
-                app:layout_constraintTop_toBottomOf="@+id/textScore1"
                 android:layout_marginTop="0dp"
-                android:src="@drawable/ball1"
+                android:alpha="@{snooker.player1.balls[ballType.SNOOKER_RED].alpha}"
                 android:background="@null"
                 android:clickable="@{snooker.player1.balls[ballType.SNOOKER_RED].isEnabled}"
-                android:alpha="@{snooker.player1.balls[ballType.SNOOKER_RED].alpha}"
                 android:onClick="@{() -> snooker.move(team.TEAM_LEFT, ballType.SNOOKER_RED)}"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ball1"
+                app:layout_constraintHeight_default="wrap"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textScore1"
+                app:layout_constraintWidth_default="wrap"
                 tools:ignore="MissingConstraints" />
 
             <ImageButton
                 android:id="@+id/plus2Player1Btn"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
-                android:background="@null"
-                app:layout_constraintWidth_default="wrap"
-                app:layout_constraintHeight_default="wrap"
-                android:scaleType="centerCrop"
-                app:layout_constraintRight_toRightOf="parent"
-                android:layout_marginEnd="28dp"
                 android:layout_marginTop="38dp"
-                app:layout_constraintTop_toBottomOf="@+id/textScore1"
-                android:src="@drawable/ball2"
-                android:onClick="@{() -> snooker.move(team.TEAM_LEFT, ballType.SNOOKER_YELLOW)}"
+                android:layout_marginEnd="28dp"
+                android:alpha="@{snooker.player1.balls[ballType.SNOOKER_YELLOW].alpha}"
+                android:background="@null"
                 android:clickable="@{snooker.player1.balls[ballType.SNOOKER_YELLOW].isEnabled}"
-                android:alpha="@{snooker.player1.balls[ballType.SNOOKER_YELLOW].alpha}"/>
+                android:onClick="@{() -> snooker.move(team.TEAM_LEFT, ballType.SNOOKER_YELLOW)}"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ball2"
+                app:layout_constraintHeight_default="wrap"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textScore1"
+                app:layout_constraintWidth_default="wrap" />
 
             <ImageButton
                 android:id="@+id/plus3Player1Btn"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
-                app:layout_constraintWidth_default="wrap"
-                app:layout_constraintHeight_default="wrap"
-                android:scaleType="centerCrop"
-                app:layout_constraintLeft_toLeftOf="parent"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="24dp"
-                app:layout_constraintTop_toBottomOf="@+id/plus1Player1Btn"
-                android:src="@drawable/ball3"
+                android:alpha="@{snooker.player1.balls[ballType.SNOOKER_GREEN].alpha}"
                 android:background="@null"
-                android:onClick="@{() -> snooker.move(team.TEAM_LEFT, ballType.SNOOKER_GREEN)}"
                 android:clickable="@{snooker.player1.balls[ballType.SNOOKER_GREEN].isEnabled}"
-                android:alpha="@{snooker.player1.balls[ballType.SNOOKER_GREEN].alpha}"/>
+                android:onClick="@{() -> snooker.move(team.TEAM_LEFT, ballType.SNOOKER_GREEN)}"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ball3"
+                app:layout_constraintHeight_default="wrap"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/plus1Player1Btn"
+                app:layout_constraintWidth_default="wrap" />
 
             <ImageButton
                 android:id="@+id/plus4Player1Btn"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
-                app:layout_constraintWidth_default="wrap"
-                app:layout_constraintHeight_default="wrap"
-                android:scaleType="centerCrop"
-                app:layout_constraintRight_toRightOf="parent"
-                android:layout_marginEnd="28dp"
                 android:layout_marginTop="24dp"
-
-                app:layout_constraintTop_toBottomOf="@+id/plus2Player1Btn"
-                android:src="@drawable/ball4"
+                android:layout_marginEnd="28dp"
+                android:alpha="@{snooker.player1.balls[ballType.SNOOKER_BROWN].alpha}"
                 android:background="@null"
-                android:onClick="@{() -> snooker.move(team.TEAM_LEFT, ballType.SNOOKER_BROWN)}"
                 android:clickable="@{snooker.player1.balls[ballType.SNOOKER_BROWN].isEnabled}"
-                android:alpha="@{snooker.player1.balls[ballType.SNOOKER_BROWN].alpha}"/>
+                android:onClick="@{() -> snooker.move(team.TEAM_LEFT, ballType.SNOOKER_BROWN)}"
+
+                android:scaleType="centerCrop"
+                android:src="@drawable/ball4"
+                app:layout_constraintHeight_default="wrap"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/plus2Player1Btn"
+                app:layout_constraintWidth_default="wrap" />
 
             <ImageButton
                 android:id="@+id/plus5Player1Btn"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
-                app:layout_constraintWidth_default="wrap"
-                app:layout_constraintHeight_default="wrap"
-                android:scaleType="centerCrop"
-                app:layout_constraintLeft_toLeftOf="parent"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="24dp"
-
-                app:layout_constraintTop_toBottomOf="@+id/plus3Player1Btn"
-                android:src="@drawable/ball5"
+                android:alpha="@{snooker.player1.balls[ballType.SNOOKER_BLUE].alpha}"
                 android:background="@null"
-                android:onClick="@{() -> snooker.move(team.TEAM_LEFT, ballType.SNOOKER_BLUE)}"
                 android:clickable="@{snooker.player1.balls[ballType.SNOOKER_BLUE].isEnabled}"
-                android:alpha="@{snooker.player1.balls[ballType.SNOOKER_BLUE].alpha}"/>
+                android:onClick="@{() -> snooker.move(team.TEAM_LEFT, ballType.SNOOKER_BLUE)}"
+
+                android:scaleType="centerCrop"
+                android:src="@drawable/ball5"
+                app:layout_constraintHeight_default="wrap"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/plus3Player1Btn"
+                app:layout_constraintWidth_default="wrap" />
 
             <ImageButton
                 android:id="@+id/plus6Player1Btn"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
-                app:layout_constraintWidth_default="wrap"
-                app:layout_constraintHeight_default="wrap"
-                android:scaleType="centerCrop"
-                app:layout_constraintRight_toRightOf="parent"
-                android:layout_marginEnd="28dp"
                 android:layout_marginTop="24dp"
-
-                app:layout_constraintTop_toBottomOf="@+id/plus4Player1Btn"
-                android:src="@drawable/ball6"
+                android:layout_marginEnd="28dp"
+                android:alpha="@{snooker.player1.balls[ballType.SNOOKER_PURPLE].alpha}"
                 android:background="@null"
-                android:onClick="@{() -> snooker.move(team.TEAM_LEFT, ballType.SNOOKER_PURPLE)}"
                 android:clickable="@{snooker.player1.balls[ballType.SNOOKER_PURPLE].isEnabled}"
-                android:alpha="@{snooker.player1.balls[ballType.SNOOKER_PURPLE].alpha}"/>
+                android:onClick="@{() -> snooker.move(team.TEAM_LEFT, ballType.SNOOKER_PURPLE)}"
+
+                android:scaleType="centerCrop"
+                android:src="@drawable/ball6"
+                app:layout_constraintHeight_default="wrap"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/plus4Player1Btn"
+                app:layout_constraintWidth_default="wrap" />
 
             <ImageButton
                 android:id="@+id/plus7Player1Btn"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
-                app:layout_constraintWidth_default="wrap"
-                app:layout_constraintHeight_default="wrap"
-                android:scaleType="centerCrop"
-                app:layout_constraintLeft_toLeftOf="parent"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="24dp"
-
-                app:layout_constraintTop_toBottomOf="@+id/plus5Player1Btn"
-                android:src="@drawable/ball7"
+                android:alpha="@{snooker.player1.balls[ballType.SNOOKER_BLACK].alpha}"
                 android:background="@null"
-
-                android:onClick="@{() -> snooker.move(team.TEAM_LEFT, ballType.SNOOKER_BLACK)}"
                 android:clickable="@{snooker.player1.balls[ballType.SNOOKER_BLACK].isEnabled}"
-                android:alpha="@{snooker.player1.balls[ballType.SNOOKER_BLACK].alpha}"/>
+                android:onClick="@{() -> snooker.move(team.TEAM_LEFT, ballType.SNOOKER_BLACK)}"
 
+                android:scaleType="centerCrop"
+                android:src="@drawable/ball7"
+                app:layout_constraintHeight_default="wrap"
 
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/plus5Player1Btn"
+                app:layout_constraintWidth_default="wrap" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

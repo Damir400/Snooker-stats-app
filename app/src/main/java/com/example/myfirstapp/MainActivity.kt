@@ -29,6 +29,10 @@ class MainActivity : AppCompatActivity() {
     lateinit var snooker: SnookerViewModel
 
     lateinit var timer : CountDownTimer
+    var timeOfTimer = 60 * 15
+    var timeOfTimerDefault = 60 * 15
+    var timerIsPaused = true
+
     var timerMin = 0
     var timerSec = 0
     var installTime = ""
@@ -50,11 +54,8 @@ class MainActivity : AppCompatActivity() {
 
         snooker = SnookerViewModel(PlayerViewModel(), PlayerViewModel())
 
-
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-
         binding.snooker = snooker
-
         binding.plus1 = 1
         binding.plus2 = 2
         binding.plus3 = 3
@@ -62,7 +63,6 @@ class MainActivity : AppCompatActivity() {
         binding.plus5 = 5
         binding.plus6 = 6
         binding.plus7 = 7
-
         binding.lifecycleOwner = this
 
 
@@ -74,7 +74,6 @@ class MainActivity : AppCompatActivity() {
 
             bottomSheetFragment.show(supportFragmentManager, "BottomSheetDialog")
         }
-
 
         binding.cancelBtn.setOnClickListener {
             showCancelWindow()
@@ -93,37 +92,44 @@ class MainActivity : AppCompatActivity() {
             changeImgBall()
         }
 
-        binding.playTimer.setOnClickListener{
-            counterToochingPlayBtn ++
-            if (counterToochingPlayBtn % 2 != 0) {
-                playTimer.setImageDrawable(
-                    getResources().getDrawable(
-                        R.drawable.stop,
-                        getApplicationContext().getTheme()
-                    )
-                )
-                startTimer()
-                timer.start()
-            }
-            else {
-                playTimer.setImageDrawable(
-                    getResources().getDrawable(
-                        R.drawable.play,
-                        getApplicationContext().getTheme()
-                    )
-                )
-                timer.cancel()
-            }
+        binding.playTimer.setOnClickListener { timerOnClick() }
+
+        binding.playTimer.setOnLongClickListener {
+            timerOnLongClick()
+            return@setOnLongClickListener true
         }
-
-//        binding.playTimer.setOnLongClickListener{
-//            startTimer()
-//        }
-
-
         snooker.frameScoreToString()
+    }
 
+    fun timerOnLongClick() {
+        timer.cancel()
+        timer.onFinish()
+    }
 
+    fun timerOnClick() {
+        timerIsPaused = !timerIsPaused
+
+        if(timerIsPaused) {
+            playTimer.setImageDrawable(
+                resources.getDrawable(
+                    R.drawable.play,
+                    applicationContext.theme
+                )
+            )
+            timer.cancel()
+        }
+        else {
+            playTimer.setImageDrawable(
+                getResources().getDrawable(
+                    R.drawable.stop,
+                    getApplicationContext().getTheme()
+                )
+
+            )
+
+            startTimer2()
+//            timer.start()
+        }
     }
 
     fun showCancelWindow() {
@@ -214,82 +220,58 @@ class MainActivity : AppCompatActivity() {
             plus7Player2Btn.setImageDrawable(getResources().getDrawable(R.drawable.ball7, getApplicationContext().getTheme()))        }
     }
 
-
-    fun startTimer(){
-        timer = object : CountDownTimer(convertTime(timer_game, 600000), 1000){
+    fun startTimer2(){
+        timer = object : CountDownTimer(convertTime2(timer_game), 1000){
             override fun onTick(p0: Long) {
-                showTimer()
+                if (timeOfTimer > 0) {
+                    timeOfTimer--
+                }
+
+                showTimer2()
             }
 
             override fun onFinish() {
                 playSound()
-                timer_game.setText(installTime)
+                timerIsPaused = true
+                timeOfTimer = timeOfTimerDefault
+                showTimer2()
                 playTimer.setImageDrawable(
-                    getResources().getDrawable(
+                    resources.getDrawable(
                         R.drawable.play,
-                        getApplicationContext().getTheme()
+                        applicationContext.theme
                     )
                 )
             }
+        }
 
+        timer.start()
+    }
+
+    fun timeToString(anytime: Int) : String {
+        return if(anytime >= 10) {
+            "$anytime"
+        } else {
+            "0$anytime"
         }
     }
 
-    fun convertTime(time : EditText, defaultTime : Long): Long {
+    fun showTimer2() {
+        val timerMin = timeOfTimer / 60
+        val timerSec = timeOfTimer % 60
 
-        var convertTime : Long
-
-        if (time.text.isEmpty()){
-
-            timerMin = (defaultTime / 60000).toInt()
-            timerSec = ((defaultTime - timerMin * 60000) / 1000).toInt()
-            installTime = "${timerMin}:${timerSec}"
-            return defaultTime
-        } else{
-            var currentTime = time.text.trim().splitToSequence(':').toList()
-            convertTime = (currentTime.get(0).toInt() * 60000 + currentTime.get(1).toInt() * 1000).toLong()
-
-            timerMin = currentTime.get(0).toInt()
-            timerSec = currentTime.get(1).toInt()
-            installTime = time.text.toString()
-            return convertTime
-        }
+        timer_game.setText("${timeToString(timerMin)}:${timeToString(timerSec)}")
     }
 
-    fun showTimer(){
-        if(timerMin < 10){
-            if (timerSec > 0){
-                if (timerSec < 11){
-                    timerSec -= 1
-                    timer_game.setText("0${timerMin}:0${timerSec}")
-                    return
-                }
-                timerSec -= 1
-                timer_game.setText("0${timerMin}:${timerSec}")
-                return
-            }
-            else if (timerMin > 0 && timerSec == 0){
-                timerMin -= 1
-                timerSec = 59
-                timer_game.setText("0${timerMin}:${timerSec}")
-                return
-            }
-            else if(timerMin == 0 && timerSec == 0){
-                timer_game.setText("00:00")
-                return
-            }
-        }
+    fun convertTime2(timeStr: EditText) : Long {
 
-        if (timerSec > 0){
-            if (timerSec < 11){
-                timerSec -= 1
-                timer_game.setText("${timerMin}:0${timerSec}")
-                return
-            }
-            timerSec -= 1
-            timer_game.setText("${timerMin}:${timerSec}")
-            return
+        if (!timeStr.text.isEmpty()) {
+            var times = timeStr.text.trim().splitToSequence(':').toList()
+            timeOfTimerDefault = times[0].toInt() * 60 + times[1].toInt()
+
         }
+        timeOfTimer = timeOfTimerDefault
+        showTimer2()
+        return (timeOfTimer * 1000).toLong()
     }
 
     fun playSound() {
