@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 //import kotlinx.parcelize.Parcelize
 
-class PlayerViewModel { //(playerName: String)
+class PlayerViewModel(name: String) {
     private val _name = MutableLiveData<String>()
     var name: LiveData<String> = _name
 
@@ -26,7 +26,7 @@ class PlayerViewModel { //(playerName: String)
 
 
     init {
-
+        _name.value = name
         _historyFramePlayer.value = mutableListOf()
 //        _name.value = playerName
         _balls.value = mutableMapOf(
@@ -150,5 +150,16 @@ class PlayerViewModel { //(playerName: String)
 
     fun addHistoryFrame(){
         _historyFramePlayer.value?.add(score.value!!)
+    }
+
+    fun getPlayerModel(): PlayerModel {
+        val playerModel = PlayerModel()
+        playerModel.name = name.value!!
+        playerModel.globalScore = globalScore.value!!
+        historyFramePlayer.value!!.forEach { item ->
+            playerModel.historyFramePlayer.add(item)
+        }
+
+        return playerModel
     }
 }

@@ -38,7 +38,7 @@
             android:src="@drawable/back"
             android:scaleType="centerCrop"
             android:layout_marginTop="8dp"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="8dp"
             tools:ignore="MissingConstraints" />
 
         <ImageButton
@@ -53,23 +53,22 @@
             android:src="@drawable/newgame"
             android:scaleType="centerCrop"
             android:layout_marginTop="8dp"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="8dp"
             tools:ignore="MissingConstraints" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+<!--        <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
 
-            tools:ignore="MissingConstraints">
+<!--            tools:ignore="MissingConstraints">-->
             <com.vicmikhailau.maskededittext.MaskedEditText
                 android:id="@+id/timer_game"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 app:layout_constraintHeight_default="wrap"
                 app:layout_constraintWidth_default="wrap"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-
+                app:layout_constraintLeft_toRightOf="@+id/newGameBtn"
+                app:layout_constraintRight_toLeftOf="@+id/playTimer"
                 app:layout_constraintTop_toTopOf="parent"
                 android:gravity="center"
                 android:cursorVisible="false"
@@ -83,26 +82,7 @@
                 android:textSize="45sp"
                 android:scaleType="centerCrop"
                 tools:ignore="MissingConstraints,TextFields" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-<!--        <EditText-->
-<!--            android:id="@+id/timer_game"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="0dp"_toTopOf="parent"-->
-<!--            android:gravity="center"-->
-<!--            android:layout_marginTop="6dp"-->
-<!--            android:cursorVisible="false"-->
-<!--            android:hint="15:00"-->
-<!--            android:textColorHint="#0E4711"-->
-<!--            android:inputType="time"-->
-<!--            android:background="@null"-->
-<!--            android:maxLength="5"-->
-<!--            android:textColor="@color/white"-->
-<!--            android:textSize="45sp"-->
-<!--            android:scaleType="centerCrop"-->
-<!--            tools:ignore="TextFields" />-->
-
+<!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
 
         <ImageButton
             android:id="@+id/playTimer"
@@ -116,7 +96,7 @@
             android:src="@drawable/play"
             android:scaleType="centerCrop"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="10dp"
+            android:layout_marginEnd="8dp"
             tools:ignore="MissingConstraints" />
 
         <ImageButton
@@ -130,7 +110,7 @@
             android:background="@null"
             android:src="@drawable/list"
             android:scaleType="centerCrop"
-            android:layout_marginEnd="10dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginTop="8dp"
             tools:ignore="MissingConstraints" />
 
@@ -170,7 +150,6 @@
             android:id="@+id/clPart1"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginBottom="40dp"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_chainStyle="spread"
@@ -206,7 +185,7 @@
                 android:layout_height="0dp"
                 android:scaleType="centerCrop"
                 android:shadowColor="@color/black"
-                android:shadowRadius="20"
+                android:shadowRadius="10"
                 android:text="@{Integer.toString(snooker.player1.score)}"
                 android:textColor="@color/white"
                 android:textSize="100sp"
@@ -383,7 +362,7 @@
                 android:layout_height="0dp"
                 android:scaleType="centerCrop"
                 android:shadowColor="@color/black"
-                android:shadowRadius="20"
+                android:shadowRadius="10"
                 android:text="@{Integer.toString(snooker.player2.score)}"
                 android:textColor="@color/white"
                 android:textSize="100sp"

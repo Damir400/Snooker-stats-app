@@ -1,58 +1,40 @@
 package com.example.myfirstapp
 
 import android.annotation.SuppressLint
-import android.content.Context
-import android.content.DialogInterface
-import android.content.Intent
+import android.content.SharedPreferences
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.DataBindingUtil
 import com.example.myfirstapp.databinding.ActivityMainBinding
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.NonCancellable.cancel
-import java.time.LocalTime
-import java.time.format.DateTimeFormatter
+
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
-//    lateinit var player1: PlayerViewModel
-//    lateinit var player2: PlayerViewModel
 
-
-//    lateinit var progress: ProgressViewModel
     lateinit var snooker: SnookerViewModel
 
     lateinit var timer : CountDownTimer
-    var timeOfTimer = 60 * 15
-    var timeOfTimerDefault = 60 * 15
+//    var timeOfTimer = 60 * 25
+    var timeOfTimerDefault = 60 * 25
     var timerIsPaused = true
-
-    var timerMin = 0
-    var timerSec = 0
-    var installTime = ""
-    var counterToochingPlayBtn = 0
-
+    var currentTime = 0
+    var overrideDefaultTime = true
     var mMediaPlayer: MediaPlayer? = null
 
-//    lateinit var bottomSheetFragment: BottomSheetFragment
-
-//    lateinit var scorePlayer1: TextView
-//    lateinit var scorePlayer2: TextView
-//
-//    var isEnable: Boolean = false
-
+    var mPrefs: SharedPreferences? = null
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        snooker = SnookerViewModel(PlayerViewModel(), PlayerViewModel())
+        snooker = SnookerViewModel(PlayerViewModel("Player 1"), PlayerViewModel("Player 2"))
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.snooker = snooker
@@ -98,15 +80,26 @@ class MainActivity : AppCompatActivity() {
             timerOnLongClick()
             return@setOnLongClickListener true
         }
+
+        binding.timerGame.doAfterTextChanged {
+            if(timerIsPaused && timer_game.text.toString().length == 5){
+                convertTime(timer_game)
+                overrideDefaultTime = true
+            }
+        }
+
         snooker.frameScoreToString()
+
+
+        mPrefs = getPreferences(MODE_PRIVATE)
     }
 
-    fun timerOnLongClick() {
+    private fun timerOnLongClick() {
         timer.cancel()
         timer.onFinish()
     }
 
-    fun timerOnClick() {
+    private fun timerOnClick() {
         timerIsPaused = !timerIsPaused
 
         if(timerIsPaused) {
@@ -116,18 +109,21 @@ class MainActivity : AppCompatActivity() {
                     applicationContext.theme
                 )
             )
+            timer_game.isEnabled = true
             timer.cancel()
+//            currentTime = timeOfTimer
         }
         else {
             playTimer.setImageDrawable(
-                getResources().getDrawable(
+                resources.getDrawable(
                     R.drawable.stop,
-                    getApplicationContext().getTheme()
+                    applicationContext.theme
                 )
 
             )
-
-            startTimer2()
+            timer_game.isEnabled = false
+            startTimer(overrideDefaultTime)
+            overrideDefaultTime = false
 //            timer.start()
         }
     }
@@ -175,6 +171,7 @@ class MainActivity : AppCompatActivity() {
         builder.setTitle("Начать новую сессию?")
             ?.setPositiveButton("ДА", { dialog, id ->
                 dialog.dismiss()
+                saveData()
                 snooker.newTournament()
 
             })
@@ -186,55 +183,68 @@ class MainActivity : AppCompatActivity() {
 
     fun changeImgBall(){
         if (switchThemes.isChecked){
-            plus1Player1Btn.setImageDrawable(getResources().getDrawable(R.drawable.a_ball1, getApplicationContext().getTheme()))
-            plus2Player1Btn.setImageDrawable(getResources().getDrawable(R.drawable.a_ball2, getApplicationContext().getTheme()))
-            plus3Player1Btn.setImageDrawable(getResources().getDrawable(R.drawable.a_ball3, getApplicationContext().getTheme()))
-            plus4Player1Btn.setImageDrawable(getResources().getDrawable(R.drawable.a_ball4, getApplicationContext().getTheme()))
-            plus5Player1Btn.setImageDrawable(getResources().getDrawable(R.drawable.a_ball5, getApplicationContext().getTheme()))
-            plus6Player1Btn.setImageDrawable(getResources().getDrawable(R.drawable.a_ball6, getApplicationContext().getTheme()))
-            plus7Player1Btn.setImageDrawable(getResources().getDrawable(R.drawable.a_ball7, getApplicationContext().getTheme()))
+            plus1Player1Btn.setImageDrawable(resources.getDrawable(R.drawable.a_ball1, applicationContext.theme))
+            plus2Player1Btn.setImageDrawable(resources.getDrawable(R.drawable.a_ball2, applicationContext.theme))
+            plus3Player1Btn.setImageDrawable(resources.getDrawable(R.drawable.a_ball3, applicationContext.theme))
+            plus4Player1Btn.setImageDrawable(resources.getDrawable(R.drawable.a_ball4, applicationContext.theme))
+            plus5Player1Btn.setImageDrawable(resources.getDrawable(R.drawable.a_ball5, applicationContext.theme))
+            plus6Player1Btn.setImageDrawable(resources.getDrawable(R.drawable.a_ball6, applicationContext.theme))
+            plus7Player1Btn.setImageDrawable(resources.getDrawable(R.drawable.a_ball7, applicationContext.theme))
 
-            plus1Player2Btn.setImageDrawable(getResources().getDrawable(R.drawable.a_ball1, getApplicationContext().getTheme()))
-            plus2Player2Btn.setImageDrawable(getResources().getDrawable(R.drawable.a_ball2, getApplicationContext().getTheme()))
-            plus3Player2Btn.setImageDrawable(getResources().getDrawable(R.drawable.a_ball3, getApplicationContext().getTheme()))
-            plus4Player2Btn.setImageDrawable(getResources().getDrawable(R.drawable.a_ball4, getApplicationContext().getTheme()))
-            plus5Player2Btn.setImageDrawable(getResources().getDrawable(R.drawable.a_ball5, getApplicationContext().getTheme()))
-            plus6Player2Btn.setImageDrawable(getResources().getDrawable(R.drawable.a_ball6, getApplicationContext().getTheme()))
-            plus7Player2Btn.setImageDrawable(getResources().getDrawable(R.drawable.a_ball7, getApplicationContext().getTheme()))
+            plus1Player2Btn.setImageDrawable(resources.getDrawable(R.drawable.a_ball1, applicationContext.theme))
+            plus2Player2Btn.setImageDrawable(resources.getDrawable(R.drawable.a_ball2, applicationContext.theme))
+            plus3Player2Btn.setImageDrawable(resources.getDrawable(R.drawable.a_ball3, applicationContext.theme))
+            plus4Player2Btn.setImageDrawable(resources.getDrawable(R.drawable.a_ball4, applicationContext.theme))
+            plus5Player2Btn.setImageDrawable(resources.getDrawable(R.drawable.a_ball5, applicationContext.theme))
+            plus6Player2Btn.setImageDrawable(resources.getDrawable(R.drawable.a_ball6, applicationContext.theme))
+            plus7Player2Btn.setImageDrawable(resources.getDrawable(R.drawable.a_ball7, applicationContext.theme))
         }
         else {
-            plus1Player1Btn.setImageDrawable(getResources().getDrawable(R.drawable.ball1, getApplicationContext().getTheme()))
-            plus2Player1Btn.setImageDrawable(getResources().getDrawable(R.drawable.ball2, getApplicationContext().getTheme()))
-            plus3Player1Btn.setImageDrawable(getResources().getDrawable(R.drawable.ball3, getApplicationContext().getTheme()))
-            plus4Player1Btn.setImageDrawable(getResources().getDrawable(R.drawable.ball4, getApplicationContext().getTheme()))
-            plus5Player1Btn.setImageDrawable(getResources().getDrawable(R.drawable.ball5, getApplicationContext().getTheme()))
-            plus6Player1Btn.setImageDrawable(getResources().getDrawable(R.drawable.ball6, getApplicationContext().getTheme()))
-            plus7Player1Btn.setImageDrawable(getResources().getDrawable(R.drawable.ball7, getApplicationContext().getTheme()))
+            plus1Player1Btn.setImageDrawable(resources.getDrawable(R.drawable.ball1, applicationContext.theme))
+            plus2Player1Btn.setImageDrawable(resources.getDrawable(R.drawable.ball2, applicationContext.theme))
+            plus3Player1Btn.setImageDrawable(resources.getDrawable(R.drawable.ball3, applicationContext.theme))
+            plus4Player1Btn.setImageDrawable(resources.getDrawable(R.drawable.ball4, applicationContext.theme))
+            plus5Player1Btn.setImageDrawable(resources.getDrawable(R.drawable.ball5, applicationContext.theme))
+            plus6Player1Btn.setImageDrawable(resources.getDrawable(R.drawable.ball6, applicationContext.theme))
+            plus7Player1Btn.setImageDrawable(resources.getDrawable(R.drawable.ball7, applicationContext.theme))
 
-            plus1Player2Btn.setImageDrawable(getResources().getDrawable(R.drawable.ball1, getApplicationContext().getTheme()))
-            plus2Player2Btn.setImageDrawable(getResources().getDrawable(R.drawable.ball2, getApplicationContext().getTheme()))
-            plus3Player2Btn.setImageDrawable(getResources().getDrawable(R.drawable.ball3, getApplicationContext().getTheme()))
-            plus4Player2Btn.setImageDrawable(getResources().getDrawable(R.drawable.ball4, getApplicationContext().getTheme()))
-            plus5Player2Btn.setImageDrawable(getResources().getDrawable(R.drawable.ball5, getApplicationContext().getTheme()))
-            plus6Player2Btn.setImageDrawable(getResources().getDrawable(R.drawable.ball6, getApplicationContext().getTheme()))
-            plus7Player2Btn.setImageDrawable(getResources().getDrawable(R.drawable.ball7, getApplicationContext().getTheme()))        }
+            plus1Player2Btn.setImageDrawable(resources.getDrawable(R.drawable.ball1, applicationContext.theme))
+            plus2Player2Btn.setImageDrawable(resources.getDrawable(R.drawable.ball2, applicationContext.theme))
+            plus3Player2Btn.setImageDrawable(resources.getDrawable(R.drawable.ball3, applicationContext.theme))
+            plus4Player2Btn.setImageDrawable(resources.getDrawable(R.drawable.ball4, applicationContext.theme))
+            plus5Player2Btn.setImageDrawable(resources.getDrawable(R.drawable.ball5, applicationContext.theme))
+            plus6Player2Btn.setImageDrawable(resources.getDrawable(R.drawable.ball6, applicationContext.theme))
+            plus7Player2Btn.setImageDrawable(resources.getDrawable(R.drawable.ball7, applicationContext.theme))        }
     }
 
-    fun startTimer2(){
-        timer = object : CountDownTimer(convertTime2(timer_game), 1000){
+    private fun startTimer(newTimer: Boolean = true) {
+        var newTime: Long
+        if (newTimer) {
+            newTime = (timeOfTimerDefault * 1000).toLong()
+            currentTime = timeOfTimerDefault
+        } else {
+            newTime = (currentTime * 1000).toLong()
+        }
+
+
+        timer = object : CountDownTimer(newTime, 1000){
             override fun onTick(p0: Long) {
-                if (timeOfTimer > 0) {
-                    timeOfTimer--
+                if (currentTime > 0) {
+                    currentTime--
                 }
 
-                showTimer2()
+                showTimer()
             }
 
             override fun onFinish() {
-                playSound()
+                if(timer_game.text.toString() == "00:01"){
+                    playSound()
+                }
+
                 timerIsPaused = true
-                timeOfTimer = timeOfTimerDefault
-                showTimer2()
+                currentTime = timeOfTimerDefault
+                showTimer()
+
                 playTimer.setImageDrawable(
                     resources.getDrawable(
                         R.drawable.play,
@@ -247,7 +257,7 @@ class MainActivity : AppCompatActivity() {
         timer.start()
     }
 
-    fun timeToString(anytime: Int) : String {
+    private fun timeToString(anytime: Int) : String {
         return if(anytime >= 10) {
             "$anytime"
         } else {
@@ -255,23 +265,19 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun showTimer2() {
-        val timerMin = timeOfTimer / 60
-        val timerSec = timeOfTimer % 60
+    fun showTimer() {
+        val timerMin = currentTime / 60
+        val timerSec = currentTime % 60
 
         timer_game.setText("${timeToString(timerMin)}:${timeToString(timerSec)}")
     }
 
-    fun convertTime2(timeStr: EditText) : Long {
-
-        if (!timeStr.text.isEmpty()) {
+    private fun convertTime(timeStr: EditText)  {
+        if (timeStr.text.isNotEmpty()) {
             var times = timeStr.text.trim().splitToSequence(':').toList()
             timeOfTimerDefault = times[0].toInt() * 60 + times[1].toInt()
-
         }
-        timeOfTimer = timeOfTimerDefault
-        showTimer2()
-        return (timeOfTimer * 1000).toLong()
+        overrideDefaultTime = true
     }
 
     fun playSound() {
@@ -280,6 +286,27 @@ class MainActivity : AppCompatActivity() {
             mMediaPlayer!!.start()
         } else mMediaPlayer!!.start()
     }
+
+    private fun saveData(){
+        val prefsEditor: SharedPreferences.Editor = mPrefs!!.edit()
+        val gson = Gson()
+
+        var historyModel = HistoryModel()
+
+        var json = mPrefs!!.getString(DbConstants.HISTORY_SAVE_KEY, "")
+
+        try {
+             historyModel = gson.fromJson(json, HistoryModel::class.java)
+        }
+        catch (exception: java.lang.Exception){}
+
+        historyModel.addHistory(snooker)
+
+        json = gson.toJson(historyModel)
+        prefsEditor.putString(DbConstants.HISTORY_SAVE_KEY, json)
+        prefsEditor.commit()
+    }
+
 
 }
 

@@ -1,12 +1,18 @@
 package com.example.myfirstapp
 
+import android.content.SharedPreferences
 import android.icu.text.SimpleDateFormat
+import android.os.Build
 import android.os.CountDownTimer
 import android.text.format.DateFormat
 import android.widget.EditText
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import kotlinx.android.synthetic.main.activity_main.*
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.*
 import java.util.stream.Collectors.toList
 
 class SnookerViewModel(player1: PlayerViewModel, player2: PlayerViewModel) {
@@ -27,17 +33,10 @@ class SnookerViewModel(player1: PlayerViewModel, player2: PlayerViewModel) {
     private val _timeFrame = MutableLiveData<Int>()
     var timeFrame: LiveData<Int> = _timeFrame
 
-//    lateinit var timer : CountDownTimer
-
-
-
-
     init {
         _progress.value = mutableListOf()
         _player1.value = player1
         _player2.value = player2
-
-
     }
 
     fun move(teamId: Teams, ballType: BallType = BallType.SNOOKER_RED){
@@ -104,7 +103,24 @@ class SnookerViewModel(player1: PlayerViewModel, player2: PlayerViewModel) {
         player2.value!!.addHistoryFrame()
     }
 
-
-
+//    fun getPlayerModel(): PlayerModel {
+//        val playerModel = PlayerModel()
+//
+////        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
+////        playerModel.datetime = SimpleDateFormat("yyyy-MM-dd HH:mm").format(Calendar.getInstance().time)
+////        playerModel.name1 = player1.value!!.name.value!!
+////        playerModel.globalScore1 = player1.value!!.globalScore.value!!
+////        player1.value!!.historyFramePlayer.value!!.forEach { item ->
+////            playerModel.historyFramePlayer1.add(item)
+////        }
+////
+////        playerModel.name2 = player2.value!!.name.value!!
+////        playerModel.globalScore2 = player2.value!!.globalScore.value!!
+////        player2.value!!.historyFramePlayer.value!!.forEach { item ->
+////            playerModel.historyFramePlayer2.add(item)
+////
+////        }
+//        return playerModel
+//    }
 
 }
