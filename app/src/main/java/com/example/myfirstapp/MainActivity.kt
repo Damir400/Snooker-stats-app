@@ -1,6 +1,8 @@
 package com.example.myfirstapp
 
+
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.SharedPreferences
 import android.media.MediaPlayer
 import android.os.Bundle
@@ -12,7 +14,9 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.DataBindingUtil
 import com.example.myfirstapp.databinding.ActivityMainBinding
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.history_list_item.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -153,6 +157,10 @@ class MainActivity : AppCompatActivity() {
         builder.setTitle("Начать новую игру?")
             ?.setPositiveButton("ДА") { dialog, id ->
                 dialog.dismiss()
+
+                snooker.player1.value!!.updateName(textUser1.text.toString())
+                snooker.player2.value!!.updateName(textUser2.text.toString())
+
                 snooker.addHistoryPlayers()
                 snooker.addGlobalScore()
 
@@ -171,6 +179,7 @@ class MainActivity : AppCompatActivity() {
         builder.setTitle("Начать новую сессию?")
             ?.setPositiveButton("ДА", { dialog, id ->
                 dialog.dismiss()
+                checkZeroScore()
                 saveData()
                 snooker.newTournament()
 
@@ -218,6 +227,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun startTimer(newTimer: Boolean = true) {
+
         var newTime: Long
         if (newTimer) {
             newTime = (timeOfTimerDefault * 1000).toLong()
@@ -288,23 +298,40 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun saveData(){
-        val prefsEditor: SharedPreferences.Editor = mPrefs!!.edit()
+        val sharedPreference =  getSharedPreferences("PREFERENCE_NAME", Context.MODE_PRIVATE)
+        val prefsEditor: SharedPreferences.Editor = sharedPreference.edit()
+//        val prefsEditor: SharedPreferences.Editor = mPrefs!!.edit()
         val gson = Gson()
 
-        var historyModel = HistoryModel()
+        var historyModels = mutableListOf<HistoryModel>()
 
-        var json = mPrefs!!.getString(DbConstants.HISTORY_SAVE_KEY, "")
+        var json = sharedPreference.getString(DbConstants.HISTORY_SAVE_KEY, "")
 
-        try {
-             historyModel = gson.fromJson(json, HistoryModel::class.java)
+        if (json?.isNotEmpty() == true) {
+            try {
+                val historyModelsType = object : TypeToken<MutableList<HistoryModel>>() {}.type
+                historyModels = Gson().fromJson<MutableList<HistoryModel>>(json, historyModelsType)
+//             historyModel = gson.fromJson(json, MutableList<HistoryModel>::class.java)
+            }
+            catch (exception: java.lang.Exception){
+                println(exception.message)
+            }
         }
-        catch (exception: java.lang.Exception){}
 
-        historyModel.addHistory(snooker)
 
-        json = gson.toJson(historyModel)
+        val historyModel = HistoryModel()
+        historyModels.add(snooker.getHistoryModel())
+
+        json = gson.toJson(historyModels)
         prefsEditor.putString(DbConstants.HISTORY_SAVE_KEY, json)
         prefsEditor.commit()
+    }
+
+    fun checkZeroScore(){
+        if(textScore1.text.toString().toInt() != 0 && textScore2.text.toString().toInt() != 0){
+            snooker.addHistoryPlayers()
+            snooker.addGlobalScore()
+        }
     }
 
 

@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData
 //import kotlinx.parcelize.Parcelize
 
 class PlayerViewModel(name: String) {
-    private val _name = MutableLiveData<String>()
+    private var _name = MutableLiveData<String>()
     var name: LiveData<String> = _name
 
 
@@ -161,5 +161,9 @@ class PlayerViewModel(name: String) {
         }
 
         return playerModel
+    }
+
+    fun updateName(playerName: String){
+        _name.value = playerName
     }
 }

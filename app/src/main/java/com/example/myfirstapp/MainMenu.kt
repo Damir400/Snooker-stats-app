@@ -31,6 +31,11 @@ class MainMenu: AppCompatActivity() {
             val intent = Intent(this, TableParams::class.java);
             startActivity(intent);
         }
+
+        binding.historyMatch.setOnClickListener {
+            val intent = Intent(this, HistoryActivity::class.java);
+            startActivity(intent);
+        }
     }
 
 }

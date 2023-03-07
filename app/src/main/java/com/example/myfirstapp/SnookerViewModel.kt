@@ -11,6 +11,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import kotlinx.android.synthetic.main.activity_main.*
 import java.time.LocalDateTime
+import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 import java.util.stream.Collectors.toList
@@ -103,24 +104,12 @@ class SnookerViewModel(player1: PlayerViewModel, player2: PlayerViewModel) {
         player2.value!!.addHistoryFrame()
     }
 
-//    fun getPlayerModel(): PlayerModel {
-//        val playerModel = PlayerModel()
-//
-////        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
-////        playerModel.datetime = SimpleDateFormat("yyyy-MM-dd HH:mm").format(Calendar.getInstance().time)
-////        playerModel.name1 = player1.value!!.name.value!!
-////        playerModel.globalScore1 = player1.value!!.globalScore.value!!
-////        player1.value!!.historyFramePlayer.value!!.forEach { item ->
-////            playerModel.historyFramePlayer1.add(item)
-////        }
-////
-////        playerModel.name2 = player2.value!!.name.value!!
-////        playerModel.globalScore2 = player2.value!!.globalScore.value!!
-////        player2.value!!.historyFramePlayer.value!!.forEach { item ->
-////            playerModel.historyFramePlayer2.add(item)
-////
-////        }
-//        return playerModel
-//    }
+    fun getHistoryModel(): HistoryModel {
+        val datetime: String = SimpleDateFormat("yyyy-MM-dd HH:mm").format(Calendar.getInstance().time)
+        val playerModel1: PlayerModel = player1.value?.getPlayerModel()!!
+        val playerModel2: PlayerModel = player2.value?.getPlayerModel()!!
+
+        return HistoryModel(datetime, playerModel1, playerModel2)
+    }
 
 }

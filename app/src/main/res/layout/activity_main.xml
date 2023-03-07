@@ -56,11 +56,6 @@
             android:layout_marginStart="8dp"
             tools:ignore="MissingConstraints" />
 
-<!--        <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-
-<!--            tools:ignore="MissingConstraints">-->
             <com.vicmikhailau.maskededittext.MaskedEditText
                 android:id="@+id/timer_game"
                 android:layout_width="0dp"
@@ -73,7 +68,7 @@
                 android:gravity="center"
                 android:cursorVisible="false"
                 app:mask="##:##"
-                android:hint="15:00"
+                android:hint="25:00"
                 android:textColorHint="#0E4711"
                 android:inputType="time"
                 android:background="@null"
@@ -82,7 +77,6 @@
                 android:textSize="45sp"
                 android:scaleType="centerCrop"
                 tools:ignore="MissingConstraints,TextFields" />
-<!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
 
         <ImageButton
             android:id="@+id/playTimer"
@@ -113,9 +107,6 @@
             android:layout_marginEnd="8dp"
             android:layout_marginTop="8dp"
             tools:ignore="MissingConstraints" />
-
-
-
 
         <TextView
             android:id="@+id/globalScore"
@@ -165,7 +156,7 @@
                 android:background="@null"
                 android:cursorVisible="false"
                 android:gravity="center"
-                android:hint="ИГРОК 1"
+                android:text="@{snooker.player1.name}"
                 android:inputType="text"
                 android:maxLength="10"
                 android:scaleType="centerCrop"
@@ -346,7 +337,7 @@
                 android:layout_marginTop="75dp"
                 android:gravity="center"
                 android:cursorVisible="false"
-                android:hint="ИГРОК 2"
+                android:text="@{snooker.player2.name}"
                 android:textColorHint="#0E4711"
                 android:inputType="text"
                 android:background="@null"
