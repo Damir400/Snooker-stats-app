@@ -38,7 +38,7 @@
             android:src="@drawable/back"
             android:scaleType="centerCrop"
             android:layout_marginTop="8dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="4dp"
             tools:ignore="MissingConstraints" />
 
         <ImageButton
@@ -53,7 +53,7 @@
             android:src="@drawable/newgame"
             android:scaleType="centerCrop"
             android:layout_marginTop="8dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="4dp"
             tools:ignore="MissingConstraints" />
 
             <com.vicmikhailau.maskededittext.MaskedEditText
@@ -65,16 +65,17 @@
                 app:layout_constraintLeft_toRightOf="@+id/newGameBtn"
                 app:layout_constraintRight_toLeftOf="@+id/playTimer"
                 app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="8dp"
                 android:gravity="center"
                 android:cursorVisible="false"
                 app:mask="##:##"
-                android:hint="25:00"
+                android:text="25:00"
                 android:textColorHint="#0E4711"
                 android:inputType="time"
                 android:background="@null"
                 android:maxLength="5"
                 android:textColor="@color/white"
-                android:textSize="45sp"
+                android:textSize="40sp"
                 android:scaleType="centerCrop"
                 tools:ignore="MissingConstraints,TextFields" />
 
@@ -90,7 +91,7 @@
             android:src="@drawable/play"
             android:scaleType="centerCrop"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="4dp"
             tools:ignore="MissingConstraints" />
 
         <ImageButton
@@ -104,7 +105,7 @@
             android:background="@null"
             android:src="@drawable/list"
             android:scaleType="centerCrop"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="4dp"
             android:layout_marginTop="8dp"
             tools:ignore="MissingConstraints" />
 
@@ -150,11 +151,11 @@
 
             <EditText
                 android:id="@+id/textUser1"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_marginTop="75dp"
                 android:background="@null"
-                android:cursorVisible="false"
+                android:cursorVisible="true"
                 android:gravity="center"
                 android:text="@{snooker.player1.name}"
                 android:inputType="text"
@@ -327,7 +328,7 @@
 
             <EditText
                 android:id="@+id/textUser2"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="0dp"
                 app:layout_constraintHeight_default="wrap"
                 app:layout_constraintWidth_default="wrap"

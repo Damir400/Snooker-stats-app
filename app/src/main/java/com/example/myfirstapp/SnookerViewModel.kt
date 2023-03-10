@@ -9,6 +9,7 @@ import android.widget.EditText
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import java.time.LocalDateTime
 import java.time.OffsetDateTime
@@ -16,7 +17,7 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 import java.util.stream.Collectors.toList
 
-class SnookerViewModel(player1: PlayerViewModel, player2: PlayerViewModel) {
+class SnookerViewModel(player1: PlayerViewModel, player2: PlayerViewModel) : ViewModel() {
 //    private val _maxScore = 147
 
     private val _player1 = MutableLiveData<PlayerViewModel>()

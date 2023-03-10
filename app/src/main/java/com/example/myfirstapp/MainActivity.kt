@@ -7,11 +7,15 @@ import android.content.SharedPreferences
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.view.KeyEvent
+import android.view.inputmethod.EditorInfo
 import android.widget.EditText
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
 import com.example.myfirstapp.databinding.ActivityMainBinding
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -23,6 +27,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
 
     lateinit var snooker: SnookerViewModel
+
 
     lateinit var timer : CountDownTimer
 //    var timeOfTimer = 60 * 25
@@ -37,8 +42,10 @@ class MainActivity : AppCompatActivity() {
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
 
         snooker = SnookerViewModel(PlayerViewModel("Player 1"), PlayerViewModel("Player 2"))
+//        var snooker by lazy { ViewModelProvider(this).get(SnookerViewModel(PlayerViewModel("Player 1"), PlayerViewModel("Player 2"))::class.java) }
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.snooker = snooker
@@ -96,6 +103,66 @@ class MainActivity : AppCompatActivity() {
 
 
         mPrefs = getPreferences(MODE_PRIVATE)
+
+        binding.textUser1.setOnClickListener { _ -> textUser1.isCursorVisible = true }
+        binding.textUser2.setOnClickListener { _ -> textUser2.isCursorVisible = true }
+        binding.timerGame.setOnClickListener { _ -> timer_game.isCursorVisible = true }
+
+        binding.textUser1.setOnEditorActionListener(object : TextView.OnEditorActionListener {
+            override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
+                return onEditTextViewEditorAction(v, actionId, event)
+            }
+        })
+
+        binding.textUser2.setOnEditorActionListener(object : TextView.OnEditorActionListener {
+            override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
+                return onEditTextViewEditorAction(v, actionId, event)
+            }
+        })
+
+        binding.timerGame.setOnEditorActionListener(object : TextView.OnEditorActionListener {
+            override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
+                return onEditTextViewEditorAction(v, actionId, event)
+            }
+        })
+
+//        binding.textUser1.setOnFocusChangeListener {view, b -> textUser1.isCursorVisible = b}
+
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState?.run {
+            putString("KEY1",snooker.player1.value!!.name.value!!.toString())
+            putString("KEY2",textUser2.text.toString())
+//            putString("KEY3",.text.toString())
+//            putString("KEY4",textUser1.text.toString())
+        }
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+
+        textUser1.setText("KEY1")
+    }
+
+
+
+    fun onEditTextViewEditorAction(currentView: TextView?, actionId: Int, event: KeyEvent?): Boolean {
+        if (actionId == EditorInfo.IME_ACTION_SEARCH ||
+            actionId == EditorInfo.IME_ACTION_DONE ||
+            actionId == EditorInfo.IME_ACTION_NEXT ||
+            event != null &&
+            event.getAction() == KeyEvent.ACTION_DOWN &&
+            event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+            if (event == null || !event.isShiftPressed()) {
+                // the user is done typing.
+                currentView?.isCursorVisible = false
+                return false; // consume.
+            }
+        }
+        currentView?.isCursorVisible = true
+        return true; // pass on to other listeners.
     }
 
     private fun timerOnLongClick() {
