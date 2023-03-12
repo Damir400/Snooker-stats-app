@@ -1,11 +1,12 @@
-package com.example.myfirstapp
+package com.example.myfirstapp.activities
 
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.os.PersistableBundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import com.example.myfirstapp.R
+import com.example.myfirstapp.TableParams
 import com.example.myfirstapp.databinding.MenuMainBinding
 
 

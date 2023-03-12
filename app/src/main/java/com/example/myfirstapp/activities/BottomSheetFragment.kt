@@ -1,17 +1,15 @@
-package com.example.myfirstapp
+package com.example.myfirstapp.activities
 
-import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import com.example.myfirstapp.R
 
-import android.widget.TextView
-import com.example.myfirstapp.databinding.ActivityMainBinding
 import com.example.myfirstapp.databinding.BottomsheetFragmentBinding
+import com.example.myfirstapp.viewModels.SnookerViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import java.io.File.separator
 
 
 class BottomSheetFragment(snookerViewModel: SnookerViewModel): BottomSheetDialogFragment() {

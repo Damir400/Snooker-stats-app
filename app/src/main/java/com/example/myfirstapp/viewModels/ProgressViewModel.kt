@@ -1,7 +1,5 @@
-package com.example.myfirstapp
+package com.example.myfirstapp.viewModels
 
-import android.content.Context
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

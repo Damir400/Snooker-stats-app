@@ -1,4 +1,4 @@
-package com.example.myfirstapp
+package com.example.myfirstapp.activities
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -6,7 +6,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.myfirstapp.models.DbConstants
+import com.example.myfirstapp.R
 import com.example.myfirstapp.databinding.ActivityHistoryBinding
+import com.example.myfirstapp.models.HistoryModel
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 

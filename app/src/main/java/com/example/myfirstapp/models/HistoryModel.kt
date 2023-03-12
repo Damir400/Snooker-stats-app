@@ -1,7 +1,4 @@
-package com.example.myfirstapp
-
-import android.icu.text.SimpleDateFormat
-import java.util.*
+package com.example.myfirstapp.models
 
 data class HistoryModel(
     val dateTime: String? = null,

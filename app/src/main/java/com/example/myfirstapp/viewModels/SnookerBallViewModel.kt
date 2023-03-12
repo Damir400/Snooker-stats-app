@@ -1,6 +1,7 @@
-package com.example.myfirstapp
+package com.example.myfirstapp.viewModels
 
 import androidx.lifecycle.MutableLiveData
+import com.example.myfirstapp.BallType
 
 class SnookerBallViewModel constructor(ballPoints: Int, ballCount: Int, ballType: BallType) {
     private val _points = MutableLiveData<Int>()

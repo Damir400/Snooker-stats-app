@@ -1,4 +1,4 @@
-package com.example.myfirstapp
+package com.example.myfirstapp.activities
 import com.example.myfirstapp.databinding.HistoryListItemBinding
 
 import android.view.LayoutInflater
@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.myfirstapp.models.HistoryModel
 
 class HistoryAdapter : ListAdapter<HistoryModel, HistoryAdapter.HistoryHolder>(ItemComparator()) {
     private var users: List<HistoryModel> = ArrayList()
@@ -18,13 +19,6 @@ class HistoryAdapter : ListAdapter<HistoryModel, HistoryAdapter.HistoryHolder>(I
         viewHolder.bind(getItem(position))
     }
 
-//    override fun getItemCount() =  users.size
-//
-//    fun refreshUsers(users: List<HistoryModel>){
-//        this = users
-////        notifyDataSetChanged()
-//    }
-
     class HistoryHolder(private val binding: HistoryListItemBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(historyModel: HistoryModel) = with(binding){
 
@@ -35,8 +29,7 @@ class HistoryAdapter : ListAdapter<HistoryModel, HistoryAdapter.HistoryHolder>(I
             globalScore2.text = "(${historyModel.player2?.globalScore})"
             score1.text = "(${historyModel.player1?.historyFramePlayer!!.joinToString(separator = "; ")})"
             score2.text = "(${historyModel.player2?.historyFramePlayer!!.joinToString(separator = "; ")})"
-//            userName.text = user.name
-//            userDescription.text = user.description
+
         }
 
         companion object {

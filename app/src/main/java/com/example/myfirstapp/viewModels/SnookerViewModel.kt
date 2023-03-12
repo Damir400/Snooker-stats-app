@@ -1,21 +1,14 @@
-package com.example.myfirstapp
+package com.example.myfirstapp.viewModels
 
-import android.content.SharedPreferences
 import android.icu.text.SimpleDateFormat
-import android.os.Build
-import android.os.CountDownTimer
-import android.text.format.DateFormat
-import android.widget.EditText
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import kotlinx.android.synthetic.main.activity_main.*
-import java.time.LocalDateTime
-import java.time.OffsetDateTime
-import java.time.format.DateTimeFormatter
+import com.example.myfirstapp.BallType
+import com.example.myfirstapp.Teams
+import com.example.myfirstapp.models.HistoryModel
+import com.example.myfirstapp.models.PlayerModel
 import java.util.*
-import java.util.stream.Collectors.toList
 
 class SnookerViewModel(player1: PlayerViewModel, player2: PlayerViewModel) : ViewModel() {
 //    private val _maxScore = 147
@@ -112,5 +105,6 @@ class SnookerViewModel(player1: PlayerViewModel, player2: PlayerViewModel) : Vie
 
         return HistoryModel(datetime, playerModel1, playerModel2)
     }
+
 
 }

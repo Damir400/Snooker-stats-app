@@ -1,9 +1,11 @@
-package com.example.myfirstapp
+package com.example.myfirstapp.viewModels
 
-import android.os.Parcelable
 import android.widget.EditText
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.myfirstapp.BallType
+import com.example.myfirstapp.models.PlayerModel
+
 //import kotlinx.parcelize.Parcelize
 
 class PlayerViewModel(name: String) {
@@ -18,8 +20,8 @@ class PlayerViewModel(name: String) {
     private var _globalScore = MutableLiveData(0)
     var globalScore: LiveData<Int> = _globalScore
 
-    private val _balls = MutableLiveData<MutableMap<BallType,SnookerBallViewModel>>()
-    var balls: LiveData<MutableMap<BallType,SnookerBallViewModel>> = _balls
+    private val _balls = MutableLiveData<MutableMap<BallType, SnookerBallViewModel>>()
+    var balls: LiveData<MutableMap<BallType, SnookerBallViewModel>> = _balls
 
     private var _historyFramePlayer = MutableLiveData<MutableList<Int>>()
     var historyFramePlayer: LiveData<MutableList<Int>> = _historyFramePlayer
@@ -32,12 +34,13 @@ class PlayerViewModel(name: String) {
         _balls.value = mutableMapOf(
             BallType.SNOOKER_RED to SnookerBallViewModel(1, 5, BallType.SNOOKER_RED)
 //                    BallType.SNOOKER_RED to SnookerBallViewModel(1, 15, BallType.SNOOKER_RED)
-            ,BallType.SNOOKER_YELLOW to SnookerBallViewModel(2, 1, BallType.SNOOKER_YELLOW)
-            ,BallType.SNOOKER_GREEN to SnookerBallViewModel(3,1, BallType.SNOOKER_GREEN)
-            ,BallType.SNOOKER_BROWN to SnookerBallViewModel(4,1, BallType.SNOOKER_BROWN)
-            ,BallType.SNOOKER_BLUE to SnookerBallViewModel(5,1, BallType.SNOOKER_BLUE)
-            ,BallType.SNOOKER_PURPLE to SnookerBallViewModel(6,1, BallType.SNOOKER_PURPLE)
-            ,BallType.SNOOKER_BLACK to SnookerBallViewModel(7,1, BallType.SNOOKER_BLACK))
+            , BallType.SNOOKER_YELLOW to SnookerBallViewModel(2, 1, BallType.SNOOKER_YELLOW)
+            , BallType.SNOOKER_GREEN to SnookerBallViewModel(3,1, BallType.SNOOKER_GREEN)
+            , BallType.SNOOKER_BROWN to SnookerBallViewModel(4,1, BallType.SNOOKER_BROWN)
+            , BallType.SNOOKER_BLUE to SnookerBallViewModel(5,1, BallType.SNOOKER_BLUE)
+            , BallType.SNOOKER_PURPLE to SnookerBallViewModel(6,1, BallType.SNOOKER_PURPLE)
+            , BallType.SNOOKER_BLACK to SnookerBallViewModel(7,1, BallType.SNOOKER_BLACK)
+        )
 
         _balls.value!!.forEach { item ->
             item.value.update(true)
@@ -154,6 +157,8 @@ class PlayerViewModel(name: String) {
 
     fun getPlayerModel(): PlayerModel {
         val playerModel = PlayerModel()
+
+        playerModel.score = score.value!!
         playerModel.name = name.value!!
         playerModel.globalScore = globalScore.value!!
         historyFramePlayer.value!!.forEach { item ->
@@ -165,5 +170,20 @@ class PlayerViewModel(name: String) {
 
     fun updateName(playerName: String){
         _name.value = playerName
+    }
+
+    fun setPlayerModel(playerModel: PlayerModel){
+        _name.value = playerModel.name
+        _globalScore.value = playerModel.globalScore
+        _historyFramePlayer.value!!.clear()
+        _score.value = playerModel.score
+
+        playerModel.historyFramePlayer.forEach { item ->
+            _historyFramePlayer.value!!.add(item)
+        }
+    }
+
+    fun scoreIsNotEmpty(): Boolean{
+        return _score.value!! > 0
     }
 }

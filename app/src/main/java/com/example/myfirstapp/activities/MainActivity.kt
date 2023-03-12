@@ -1,4 +1,4 @@
-package com.example.myfirstapp
+package com.example.myfirstapp.activities
 
 
 import android.annotation.SuppressLint
@@ -15,28 +15,30 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
+import com.example.myfirstapp.models.DbConstants
+import com.example.myfirstapp.R
 import com.example.myfirstapp.databinding.ActivityMainBinding
+import com.example.myfirstapp.models.CurrentPlayModel
+import com.example.myfirstapp.models.HistoryModel
+import com.example.myfirstapp.viewModels.PlayerViewModel
+import com.example.myfirstapp.viewModels.SnookerViewModel
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import kotlinx.android.synthetic.main.activity_history.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.history_list_item.*
 
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
-
     lateinit var snooker: SnookerViewModel
-
-
     lateinit var timer : CountDownTimer
-//    var timeOfTimer = 60 * 25
+
     var timeOfTimerDefault = 60 * 25
     var timerIsPaused = true
     var currentTime = 0
     var overrideDefaultTime = true
     var mMediaPlayer: MediaPlayer? = null
-
     var mPrefs: SharedPreferences? = null
 
     @SuppressLint("MissingInflatedId")
@@ -44,8 +46,29 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        snooker = SnookerViewModel(PlayerViewModel("Player 1"), PlayerViewModel("Player 2"))
-//        var snooker by lazy { ViewModelProvider(this).get(SnookerViewModel(PlayerViewModel("Player 1"), PlayerViewModel("Player 2"))::class.java) }
+        val currentPlay = readCurrentPlay()
+
+        if(currentPlay.first){
+            val player1 = PlayerViewModel("")
+            val player2 = PlayerViewModel("")
+
+            currentPlay.second!!.player1?.let { player1.setPlayerModel(it) }
+            currentPlay.second!!.player2?.let { player2.setPlayerModel(it) }
+
+            snooker = SnookerViewModel(player1, player2)
+
+            currentTime = currentPlay.second!!.currentTimer
+
+            if(currentTime <= 0){
+                currentTime = timeOfTimerDefault
+            }
+            showTimer()
+            overrideDefaultTime = false
+
+        }
+        else {
+            snooker = SnookerViewModel(PlayerViewModel("Player 1"), PlayerViewModel("Player 2"))
+        }
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.snooker = snooker
@@ -57,6 +80,9 @@ class MainActivity : AppCompatActivity() {
         binding.plus6 = 6
         binding.plus7 = 7
         binding.lifecycleOwner = this
+
+
+
 
 
         val bottomSheetFragment = BottomSheetFragment(snooker)
@@ -125,28 +151,12 @@ class MainActivity : AppCompatActivity() {
                 return onEditTextViewEditorAction(v, actionId, event)
             }
         })
-
-//        binding.textUser1.setOnFocusChangeListener {view, b -> textUser1.isCursorVisible = b}
-
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        outState?.run {
-            putString("KEY1",snooker.player1.value!!.name.value!!.toString())
-            putString("KEY2",textUser2.text.toString())
-//            putString("KEY3",.text.toString())
-//            putString("KEY4",textUser1.text.toString())
-        }
-        super.onSaveInstanceState(outState)
+    override fun onPause() {
+        super.onPause()
+        saveCurrentPlayData()
     }
-
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        super.onRestoreInstanceState(savedInstanceState)
-
-        textUser1.setText("KEY1")
-    }
-
-
 
     fun onEditTextViewEditorAction(currentView: TextView?, actionId: Int, event: KeyEvent?): Boolean {
         if (actionId == EditorInfo.IME_ACTION_SEARCH ||
@@ -182,7 +192,6 @@ class MainActivity : AppCompatActivity() {
             )
             timer_game.isEnabled = true
             timer.cancel()
-//            currentTime = timeOfTimer
         }
         else {
             playTimer.setImageDrawable(
@@ -195,7 +204,6 @@ class MainActivity : AppCompatActivity() {
             timer_game.isEnabled = false
             startTimer(overrideDefaultTime)
             overrideDefaultTime = false
-//            timer.start()
         }
     }
 
@@ -231,6 +239,8 @@ class MainActivity : AppCompatActivity() {
                 snooker.addHistoryPlayers()
                 snooker.addGlobalScore()
 
+//                timerOnLongClick()
+
             }
             ?.setNegativeButton("НЕТ", { dialog, id ->
                 dialog.dismiss()
@@ -248,6 +258,7 @@ class MainActivity : AppCompatActivity() {
                 dialog.dismiss()
                 checkZeroScore()
                 saveData()
+//                timerOnLongClick()
                 snooker.newTournament()
 
             })
@@ -347,6 +358,7 @@ class MainActivity : AppCompatActivity() {
         val timerSec = currentTime % 60
 
         timer_game.setText("${timeToString(timerMin)}:${timeToString(timerSec)}")
+//        binding.timerGame.setText("${timeToString(timerMin)}:${timeToString(timerSec)}")
     }
 
     private fun convertTime(timeStr: EditText)  {
@@ -367,7 +379,6 @@ class MainActivity : AppCompatActivity() {
     private fun saveData(){
         val sharedPreference =  getSharedPreferences("PREFERENCE_NAME", Context.MODE_PRIVATE)
         val prefsEditor: SharedPreferences.Editor = sharedPreference.edit()
-//        val prefsEditor: SharedPreferences.Editor = mPrefs!!.edit()
         val gson = Gson()
 
         var historyModels = mutableListOf<HistoryModel>()
@@ -378,15 +389,12 @@ class MainActivity : AppCompatActivity() {
             try {
                 val historyModelsType = object : TypeToken<MutableList<HistoryModel>>() {}.type
                 historyModels = Gson().fromJson<MutableList<HistoryModel>>(json, historyModelsType)
-//             historyModel = gson.fromJson(json, MutableList<HistoryModel>::class.java)
             }
             catch (exception: java.lang.Exception){
                 println(exception.message)
             }
         }
-
-
-        val historyModel = HistoryModel()
+//        val historyModel = HistoryModel()
         historyModels.add(snooker.getHistoryModel())
 
         json = gson.toJson(historyModels)
@@ -401,6 +409,45 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    //--------------------------------------------------------------------------------------------------------------------------------------------------
+    private fun saveCurrentPlayData(){
+        val sharedPreference =  getSharedPreferences("PREFERENCE_NAME", Context.MODE_PRIVATE)
+        val prefsEditor: SharedPreferences.Editor = sharedPreference.edit()
+        val gson = Gson()
+
+        val historyModel = snooker.getHistoryModel()
+
+        var currentPlayModel = CurrentPlayModel()
+
+            currentPlayModel.currentTimer = currentTime
+        currentPlayModel.player1 = historyModel.player1
+        currentPlayModel.player2 = historyModel.player2
+
+        val json = gson.toJson(currentPlayModel)
+        prefsEditor.putString(DbConstants.CURRENTPLAY_SAVE_KEY, json)
+        prefsEditor.commit()
+    }
+
+    private fun readCurrentPlay(): Pair<Boolean, CurrentPlayModel?>{
+        val sharedPreference =  getSharedPreferences("PREFERENCE_NAME", Context.MODE_PRIVATE)
+//        val gson = Gson()
+        var currentPlayModel = CurrentPlayModel()
+
+        var json = sharedPreference.getString(DbConstants.CURRENTPLAY_SAVE_KEY, "")
+
+        if (json?.isNotEmpty() == true) {
+            try {
+                val historyModelsType = object : TypeToken<CurrentPlayModel>() {}.type
+                currentPlayModel = Gson().fromJson(json, historyModelsType)
+                return Pair(true, currentPlayModel)
+            }
+            catch (exception: java.lang.Exception){
+                println(exception.message)
+            }
+        }
+
+        return Pair(false, null)
+    }
 
 }
 
