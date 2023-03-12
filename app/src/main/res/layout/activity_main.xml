@@ -120,7 +120,7 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="240dp"
-            android:text="@{snooker.frameScore}"
+            android:text="@{snooker.frameScoreTitle}"
             android:textColor="@color/white"
             android:shadowColor="@color/black"
             android:shadowRadius="20"

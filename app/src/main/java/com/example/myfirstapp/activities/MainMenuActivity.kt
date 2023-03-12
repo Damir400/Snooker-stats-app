@@ -10,7 +10,7 @@ import com.example.myfirstapp.TableParams
 import com.example.myfirstapp.databinding.MenuMainBinding
 
 
-class MainMenu: AppCompatActivity() {
+class MainMenuActivity: AppCompatActivity() {
 
     lateinit var binding: MenuMainBinding
 
@@ -19,9 +19,7 @@ class MainMenu: AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.setContentView(this, R.layout.menu_main)
-
         binding.lifecycleOwner = this
-
 
         binding.newGame.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java);

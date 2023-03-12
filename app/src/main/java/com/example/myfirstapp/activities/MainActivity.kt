@@ -15,10 +15,12 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.get
 import com.example.myfirstapp.models.DbConstants
 import com.example.myfirstapp.R
 import com.example.myfirstapp.databinding.ActivityMainBinding
-import com.example.myfirstapp.models.CurrentPlayModel
+import com.example.myfirstapp.models.CurrentGameModel
 import com.example.myfirstapp.models.HistoryModel
 import com.example.myfirstapp.viewModels.PlayerViewModel
 import com.example.myfirstapp.viewModels.SnookerViewModel
@@ -31,6 +33,9 @@ import kotlinx.android.synthetic.main.history_list_item.*
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
+
+//    val viewModel = ViewModelProvider(this).get<SnookerViewModel>()
+//        .of(this)[SnookerViewModel::class.java]
     lateinit var snooker: SnookerViewModel
     lateinit var timer : CountDownTimer
 
@@ -47,15 +52,19 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val currentPlay = readCurrentPlay()
+        snooker = ViewModelProvider(this).get()
 
         if(currentPlay.first){
-            val player1 = PlayerViewModel("")
-            val player2 = PlayerViewModel("")
+            val player1 = PlayerViewModel()
+            player1.changeName("Player 1")
+            val player2 = PlayerViewModel()
+            player2.changeName("Player 20")
 
             currentPlay.second!!.player1?.let { player1.setPlayerModel(it) }
             currentPlay.second!!.player2?.let { player2.setPlayerModel(it) }
 
-            snooker = SnookerViewModel(player1, player2)
+            snooker.player1.setPlayerModel(currentPlay.second!!.player1!!)
+            snooker.player2.setPlayerModel(currentPlay.second!!.player2!!)
 
             currentTime = currentPlay.second!!.currentTimer
 
@@ -67,7 +76,9 @@ class MainActivity : AppCompatActivity() {
 
         }
         else {
-            snooker = SnookerViewModel(PlayerViewModel("Player 1"), PlayerViewModel("Player 2"))
+//            snooker = SnookerViewModel()
+            snooker.player1.changeName("Player 1")
+            snooker.player2.changeName("Player 2")
         }
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
@@ -88,8 +99,11 @@ class MainActivity : AppCompatActivity() {
         val bottomSheetFragment = BottomSheetFragment(snooker)
 
         binding.history.setOnClickListener {
-            snooker.player1.value!!.getNamePlayer(textUser1, "Игрок 1")
-            snooker.player2.value!!.getNamePlayer(textUser2,"Игрок 2")
+//            snooker.player1.value!!.getNamePlayer(textUser1, "Игрок 1")
+//            snooker.player2.value!!.getNamePlayer(textUser2, "Игрок 2")
+
+//            snooker.player1.value!!.getNamePlayer(textUser1, "Игрок 1")
+//            snooker.player2.value!!.getNamePlayer(textUser2,"Игрок 2")
 
             bottomSheetFragment.show(supportFragmentManager, "BottomSheetDialog")
         }
@@ -125,7 +139,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        snooker.frameScoreToString()
+        snooker.updateScoreTitle()
+//        snooker.frameScoreToString()
 
 
         mPrefs = getPreferences(MODE_PRIVATE)
@@ -233,8 +248,16 @@ class MainActivity : AppCompatActivity() {
             ?.setPositiveButton("ДА") { dialog, id ->
                 dialog.dismiss()
 
-                snooker.player1.value!!.updateName(textUser1.text.toString())
-                snooker.player2.value!!.updateName(textUser2.text.toString())
+//                snooker.player1.value!!.updateName(textUser1.text.toString())
+//                snooker.player2.value!!.updateName(textUser2.text.toString())
+
+//                snooker.player1.value!!.changeName(textUser1.text.toString())
+//                snooker.player2.value!!.changeName(textUser2.text.toString())
+
+
+                snooker.player1.changeName(textUser1.text.toString())// .value!!.changeName()
+                snooker.player2.changeName(textUser2.text.toString())// .value!!.changeName()
+//                snooker.player2.value!!.changeName(textUser2.text.toString())
 
                 snooker.addHistoryPlayers()
                 snooker.addGlobalScore()
@@ -413,33 +436,29 @@ class MainActivity : AppCompatActivity() {
     private fun saveCurrentPlayData(){
         val sharedPreference =  getSharedPreferences("PREFERENCE_NAME", Context.MODE_PRIVATE)
         val prefsEditor: SharedPreferences.Editor = sharedPreference.edit()
-        val gson = Gson()
-
         val historyModel = snooker.getHistoryModel()
 
-        var currentPlayModel = CurrentPlayModel()
+        var currentGameModel = CurrentGameModel()
+        currentGameModel.currentTimer = currentTime
+        currentGameModel.player1 = historyModel.player1
+        currentGameModel.player2 = historyModel.player2
 
-            currentPlayModel.currentTimer = currentTime
-        currentPlayModel.player1 = historyModel.player1
-        currentPlayModel.player2 = historyModel.player2
-
-        val json = gson.toJson(currentPlayModel)
+        val json = Gson().toJson(currentGameModel)
         prefsEditor.putString(DbConstants.CURRENTPLAY_SAVE_KEY, json)
         prefsEditor.commit()
     }
 
-    private fun readCurrentPlay(): Pair<Boolean, CurrentPlayModel?>{
+    private fun readCurrentPlay(): Pair<Boolean, CurrentGameModel?>{
         val sharedPreference =  getSharedPreferences("PREFERENCE_NAME", Context.MODE_PRIVATE)
-//        val gson = Gson()
-        var currentPlayModel = CurrentPlayModel()
-
+        var currentGameModel: CurrentGameModel
         var json = sharedPreference.getString(DbConstants.CURRENTPLAY_SAVE_KEY, "")
 
         if (json?.isNotEmpty() == true) {
             try {
-                val historyModelsType = object : TypeToken<CurrentPlayModel>() {}.type
-                currentPlayModel = Gson().fromJson(json, historyModelsType)
-                return Pair(true, currentPlayModel)
+                val historyModelsType = object : TypeToken<CurrentGameModel>() {}.type
+                currentGameModel = Gson().fromJson(json, historyModelsType)
+
+                return Pair(true, currentGameModel)
             }
             catch (exception: java.lang.Exception){
                 println(exception.message)
@@ -448,6 +467,5 @@ class MainActivity : AppCompatActivity() {
 
         return Pair(false, null)
     }
-
 }
 

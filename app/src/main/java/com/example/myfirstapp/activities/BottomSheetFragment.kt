@@ -15,8 +15,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 class BottomSheetFragment(snookerViewModel: SnookerViewModel): BottomSheetDialogFragment() {
 
     lateinit var binding: BottomsheetFragmentBinding
-
-    val snookerViewModel: SnookerViewModel
+    private val snookerViewModel: SnookerViewModel
 
     init {
         this.snookerViewModel = snookerViewModel
@@ -30,13 +29,21 @@ class BottomSheetFragment(snookerViewModel: SnookerViewModel): BottomSheetDialog
 
         binding = DataBindingUtil.inflate(inflater, R.layout.bottomsheet_fragment, container, false)
 
-        binding.playersName1.text = snookerViewModel.player1.value!!.name.value
-        binding.playersName2.text = snookerViewModel.player2.value!!.name.value
+        binding.playersName1.text = snookerViewModel.player1.getName("Player 1")
+        binding.playersName2.text = snookerViewModel.player2.getName("Player 2")
 
-        binding.globalFinalScore.text = snookerViewModel.frameScore.value!!
+        binding.globalFinalScore.text = snookerViewModel.frameScoreTitle.value!!
 
-        binding.historyFrame1.text = snookerViewModel.player1.value!!.historyFramePlayer.value?.joinToString(separator = "\n")
-        binding.historyFrame2.text = snookerViewModel.player2.value!!.historyFramePlayer.value?.joinToString(separator = "\n")
+        binding.historyFrame1.text = snookerViewModel.player1.getFramePoints().joinToString(separator = "\n")
+        binding.historyFrame2.text = snookerViewModel.player2.getFramePoints().joinToString(separator = "\n")
+
+//        binding.playersName1.text = snookerViewModel.player1.value!!.name.value
+//        binding.playersName2.text = snookerViewModel.player2.value!!.name.value
+//
+//        binding.globalFinalScore.text = snookerViewModel.frameScoreTitle.value!!
+//
+//        binding.historyFrame1.text = snookerViewModel.player1.value!!.historyFramePlayer.value?.joinToString(separator = "\n")
+//        binding.historyFrame2.text = snookerViewModel.player2.value!!.historyFramePlayer.value?.joinToString(separator = "\n")
 
         return binding.root
     }

@@ -10,101 +10,103 @@ import com.example.myfirstapp.models.HistoryModel
 import com.example.myfirstapp.models.PlayerModel
 import java.util.*
 
-class SnookerViewModel(player1: PlayerViewModel, player2: PlayerViewModel) : ViewModel() {
-//    private val _maxScore = 147
+class SnookerViewModel() : ViewModel() {
+    val player1 = PlayerViewModel()
+    val player2 = PlayerViewModel()
 
-    private val _player1 = MutableLiveData<PlayerViewModel>()
-    private val _player2 = MutableLiveData<PlayerViewModel>()
+    var progress: LiveData<MutableList<Pair<PlayerViewModel, Int>>> = MutableLiveData()
 
-    var player1: MutableLiveData<PlayerViewModel> = _player1
-    var player2: MutableLiveData<PlayerViewModel> = _player2
+    var frameScoreTitle: LiveData<String> = MutableLiveData()//_frameScore
+    fun updateScoreTitle() {
+        (frameScoreTitle as? MutableLiveData)?.value = "${player1.getGlobalScore()}:${player2.getGlobalScore()}"
+    }
 
-    private val _progress = MutableLiveData<MutableList<Pair<PlayerViewModel, Int>>>()
-    var progress: LiveData<MutableList<Pair<PlayerViewModel, Int>>> = _progress
+    fun getScoreTitle(defValue: String = "0:0") : String {
+        val result = (frameScoreTitle as? MutableLiveData)?.value
+        return if (result == null || result!!.isEmpty()) {
+            defValue
+        } else {
+            result!!
+        }
+    }
 
-    private val _frameScore = MutableLiveData<String>()
-    var frameScore: LiveData<String> = _frameScore
-
-    private val _timeFrame = MutableLiveData<Int>()
-    var timeFrame: LiveData<Int> = _timeFrame
+    var frameTime: LiveData<Int> = MutableLiveData()
 
     init {
-        _progress.value = mutableListOf()
-        _player1.value = player1
-        _player2.value = player2
+        (progress as? MutableLiveData)?.value = mutableListOf()
     }
 
     fun move(teamId: Teams, ballType: BallType = BallType.SNOOKER_RED){
-        var curPlayer = _player1.value
-        var nexPlayer = _player2.value
+        var curPlayer = player1
 
-        if(teamId == Teams.TEAM_RIGHT) {
-            curPlayer = _player2.value
-            nexPlayer = _player1.value
+        if (teamId == Teams.TEAM_RIGHT) {
+            curPlayer = player2
         }
-        val score = curPlayer!!.balls.value!![ballType]!!.points.value!!
-        _progress.value?.add(Pair(curPlayer, -score))
-        curPlayer.addScore(score)
 
+        try {
+            val score: Int? = curPlayer.balls.value?.get(ballType)?.points?.value
+            if (score != null) {
+                (progress as? MutableLiveData)?.value?.add(Pair(curPlayer, -score))
+                curPlayer.addScore(score)
+            }
+        }
+        catch (ex: java.lang.Exception) {
+            println(ex.message)
+        }
     }
 
     // Отмена хода
     fun cancel() {
-        if (!_progress.value?.isEmpty()!!) {
-            var (player, score) = _progress.value!!.last()
+        val currentProgress = (progress as? MutableLiveData)?.value
 
+        if (currentProgress != null && currentProgress.isNotEmpty()) {
+            val (player, score) = currentProgress.last()// .value!!.last()
             player.addScore(score)
-            _progress.value!!.removeLast()
+
+            currentProgress.removeLast()
         }
     }
 
     // Добавление очков в счёт фреймов
     fun addGlobalScore (){
-        if ((player1.value!!.score.value ?: 0) > (player2.value!!.score.value ?: 0)){
-            player1.value!!.addGlobalScorePlayer()
+        if (player1.getScore(0) > player2.getScore(0)) {
+            player1.changeGlobalScore(1)
+        } else if (player2.getScore(0) > player1.getScore(0)) {
+            player2.changeGlobalScore(1)
         }
-        else if ((player1.value!!.score.value ?: 0) < (player2.value!!.score.value ?: 0)) {
-            player2.value!!.addGlobalScorePlayer()
-        }
-        frameScoreToString()
+        updateScoreTitle()
 
-        player1.value!!.setScore(0)
-        player2.value!!.setScore(0)
-        _progress.value?.clear()
-    }
+        player1.changeScore(0)
+        player2.changeScore(0)
 
-    fun frameScoreToString(){
-        _frameScore.value = "${(player1.value!!.globalScore.value!!)}:${(player2.value!!.globalScore.value!!)}"
+        (progress as? MutableLiveData)?.value?.clear()
     }
 
     // обнуление значений для нового турнира
-    fun newTournament(){
-        player1.value!!.setScore(0)
-        player2.value!!.setScore(0)
-        _progress.value?.clear()
+    fun newTournament() {
+        player1.changeScore(0)
+        player1.changeGlobalScore(0)
+        player1.initFramePoints()
 
-        player1.value!!.clearGlobalScore()
-        player2.value!!.clearGlobalScore()
+        player2.changeScore(0)
+        player2.changeGlobalScore(0)
+        player2.initFramePoints()
 
-        player1.value!!.historyFramePlayer.value!!.clear()
-        player2.value!!.historyFramePlayer.value!!.clear()
+        (progress as? MutableLiveData)?.value?.clear()
 
-        frameScoreToString()
-
+        updateScoreTitle()
     }
 
     fun addHistoryPlayers(){
-        player1.value!!.addHistoryFrame()
-        player2.value!!.addHistoryFrame()
+        player1.pushFramePoint(player1.getScore())
+        player2.pushFramePoint(player2.getScore())
     }
 
     fun getHistoryModel(): HistoryModel {
         val datetime: String = SimpleDateFormat("yyyy-MM-dd HH:mm").format(Calendar.getInstance().time)
-        val playerModel1: PlayerModel = player1.value?.getPlayerModel()!!
-        val playerModel2: PlayerModel = player2.value?.getPlayerModel()!!
+        val playerModel1: PlayerModel = player1.getPlayerModel()
+        val playerModel2: PlayerModel = player2.getPlayerModel()
 
         return HistoryModel(datetime, playerModel1, playerModel2)
     }
-
-
 }
